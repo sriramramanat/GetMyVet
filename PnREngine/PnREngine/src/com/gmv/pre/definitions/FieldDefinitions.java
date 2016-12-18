@@ -1,0 +1,96 @@
+package com.gmv.pre.definitions;
+
+public class FieldDefinitions {
+	//Field Names used in Databases
+	public static final String UNIQUE_ID = "UniqueID";
+	public static final String USER_TYPE = "User Type";
+	public static final String NAME = "Name";
+	public static final String FIRST_NAME = "First Name";
+	public static final String LAST_NAME = "Last Name";
+	public static final String SALUTATION = "Salutation";
+	public static final String BIOGRAPHY = "Bio";
+	public static final String EMAIL = "email";
+	public static final String PHONE = "Phone";
+	public static final String EDUCATION = "Education";
+	public static final String EXPERIENCE = "Experience";
+	
+	public static final String DEGREE = "Degree";
+	public static final String SCHOOL = "School";
+	public static final String GRAD_YEAR = "Year of Graduation";
+
+	public static final String BREED = "Breed";
+	public static final String CATEGORY = "Category";
+	public static final String TYPE = "Type";
+	public static final String WAIT_TIME_RANKING = "Wait Time Ranking";
+	public static final String BED_SIDE_MANNERS_RANKING = "Bed Side Manner Ranking";
+	public static final String RANKING = "Ranking";
+	public static final String LONGITUDE = "Longitude";
+	public static final String LATITUDE = "Latitude";
+	public static final String LIFE_EXPECTANCY = "Life Expectancy";
+	public static final String LIFETIME_COST = "Lifetime Cost";
+	public static final String SIZE_CAT = "Size";
+	public static final String ALT_CODE = "Alt Code";
+	public static final String DESCRIPTION = "Description";
+	public static final String CORE_PROC = "Core";
+	public static final String APPLICABILITY = "Applies To";
+	public static final String INCLUDED_PROC = "Included";
+	public static final String OWNER_ID = "Owner";
+	public static final String BREED_ID = "Breed";
+	public static final String DATE_ADOPTED = "DoB | DoA";
+	public static final String HISTORY = "History";
+	public static final String GENDER = "Gender";
+
+	//Substring value of field values
+	public static final String CANINE_PREFIX = "GMV_CANINE_BREED_";
+	public static final String FELINE_PREFIX = "GMV_FELINE_BREED_";
+	public static final String PRACTICE_PREFIX = "GMV_PRACTICE_";
+	public static final String CANINE = "Canine";
+	public static final String FELINE = "Feline";
+	public static final String CONGENITAL_ISSUES = "Congenital Issues";
+	public static final String POSSIBLE_ADDITIONS = "Possible Additions";
+	public static final String VARIANT_LEVEL = "Variant Level";
+	public static final String INCLUDED_PARTS = "Included Parts";
+	public static final String POSSIBLE_PART_UPGRADES = "Possible Upgrade Parts";
+	public static final String ROLE_NAME = "Role";
+	public static final String PRACTICE_LOC = "Practice Location";
+	public static final String REASON = "Reason";
+	public static final String WHO_CAN_DO = "Who Can Do";
+	public static final String PROC_TIME = "Procedure Time";
+	public static final String RES_TIME = "Results Time";
+	public static final String REGIONAL_PRICE = "Regional Price";
+	public static final String BASE_PRICE = "Base Price";
+	public static final String TRANSFER_PRICE = "Transfer Price";
+	public static final String PROMO_PRICE = "Promo Price";
+	public static final String TEMPLATE = "Template";
+	public static final String ADDITIONS = "Add Ons";
+	public static final String CANCEL_PENALTY = "Cancel Penalty";
+	public static final String NUM_OFFICES = "Number Offices";
+	public static final String NUM_PROVIDERS = "Number Providers";
+	public static final String PROVIDER_ID = "Provider ID";
+	public static final String PROVIDER_NAME = "Provider Name";
+	public static final String PROVIDER_LOC = "Provider Location";
+	public static final String WHEN = "When";
+	public static final String FINANCING_AVAILABLE = "Financing Available";
+	public static final String AVAILABLE_TIMES = "Available Timeslots";
+	public static final String OFFERING = "Offering";
+	public static final String TIME_OF_SALE = "Time of Sale";
+	public static final String TIME_OF_COMMENCEMENT = "Time of Commencement";
+	public static final String POPULARITY_RANK = "Popularity Rank";
+	public static final String COMPOSITE_RANKING = "Composite Ranking";
+	public static final String PROVIDER_ADDRESS = "Provider Street Address";
+	public static final String PROVIDER_CITY = "Provider City";
+	public static final String PROVIDER_STATE = "Provider State";
+	public static final String PROVIDER_ZIP = "Provider Zip";
+	public static final String RENDERING_ADDRESS = "Rendering Street Address";
+	public static final String RENDERING_CITY = "Rendering City";
+	public static final String RENDERING_STATE = "Rendering State";
+	public static final String RENDERING_ZIP = "Rendering Zip";
+	public static final String RENDERING_LOC = "Rendering Location";
+	public static final String PROVIDER_PHONE = "Provider Phone";
+	public static final String PROVIDER_RANK = "Provider Rank";
+	public static final String PROMO_AVAILABLE = "Promo Available";
+	public static final String ENTRY_TIME = "Entry Time";
+	public static final String CORE_TIME = "Core Time";
+	public static final String ANIMALS_TREATED = "Animals Treated";
+	public static final String TEMPLATE_NAME = "Template Name";
+}
