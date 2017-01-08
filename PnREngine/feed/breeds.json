@@ -1,0 +1,1549 @@
+//begin
+   "Breed": "Affenpinscher",
+   "Category": "toy",
+   "Popularity Rank": 139,
+   "Life Expectancy": "11.42",
+   "Size": "small",
+   "Lifetime Cost": "17,197",
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Afghan Hound",
+   "Category": "hound",
+   "Popularity Rank": 88,
+   "Life Expectancy": "11.92",
+   "Size": "large",
+   "Lifetime Cost": "18,299",
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Airedale Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 55,
+   "Life Expectancy": "11.45",
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "dysplasia"}]
+//end
+//begin
+   "Breed": "Akita",
+   "Category": "working",
+   "Popularity Rank": 47,
+   "Life Expectancy": "10.16",
+   "Size": "large",
+   "Lifetime Cost": "19,727",
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "dysplasia"}]
+//end
+//begin
+   "Breed": "Alaskan Malamute",
+   "Category": "working",
+   "Popularity Rank": 58,
+   "Life Expectancy": "10.67",
+   "Size": "large",
+   "Lifetime Cost": "20,655",
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "dysplasia"},{"Area" : "skeleton", "Issue" : "Osteochondrodysplasia - skeletal dwarfism"}]
+//end
+//begin
+   "Breed": "American English Coonhound",
+   "Category": "hound",
+   "Popularity Rank": 33,
+   "Life Expectancy": -1,
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "American Eskimo Dog",
+   "Category": "non-sporting",
+   "Popularity Rank": 116,
+   "Life Expectancy": -1,
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "American Foxhound",
+   "Category": "hound",
+   "Popularity Rank": 173,
+   "Life Expectancy": -1,
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "American Staffordshire Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 72,
+   "Life Expectancy": -1,
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "skin", "Issue" : "Demodicosis/ Demodectic mange"}]
+//end
+//begin
+   "Breed": "American Water Spaniel",
+   "Category": "sporting",
+   "Popularity Rank": 157,
+   "Life Expectancy": -1,
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Anatolian Shepherd Dog",
+   "Category": "working",
+   "Popularity Rank": 111,
+   "Life Expectancy": "10.75",
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Australian Cattle Dog",
+   "Category": "herding",
+   "Popularity Rank": 60,
+   "Life Expectancy": "11.67",
+   "Size": "medium",
+   "Lifetime Cost": "21,779",
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "dysplasia"}]
+//end
+//begin
+   "Breed": "Australian Shepherd",
+   "Category": "herding",
+   "Popularity Rank": 24,
+   "Life Expectancy": "12.28",
+   "Size": "medium",
+   "Lifetime Cost": "22,914",
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "dysplasia"},{"Area" : "ear", "Issue" : "deafness"}]
+//end
+//begin
+   "Breed": "Australian Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 121,
+   "Life Expectancy": "11.05",
+   "Size": "small",
+   "Lifetime Cost": "20,771",
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Basenji",
+   "Category": "hound",
+   "Popularity Rank": 93,
+   "Life Expectancy": "13.58",
+   "Size": "medium",
+   "Lifetime Cost": "25,634",
+   "Congenital Issues": [{"Area" : "kidney", "Issue" : "Fanconi syndrome"},{"Area" : "eye", "Issue" : "Persistent pupillary membranes (PPM)"},{"Area" : "blood", "Issue" : "Pyruvate kinase (PK) deficiency"}]
+//end
+//begin
+   "Breed": "Basset Hound",
+   "Category": "hound",
+   "Popularity Rank": 41,
+   "Life Expectancy": "11.43",
+   "Size": "small",
+   "Lifetime Cost": "21,306",
+   "Congenital Issues": [{"Area" : "blood", "Issue" : "Platelet dysfunction (thrombocytopathia; Basset hound thrombopathia)"},{"Area" : "skin", "Issue" : "seborrhea"}]
+//end
+//begin
+   "Breed": "Beagle",
+   "Category": "hound",
+   "Popularity Rank": 3,
+   "Life Expectancy": "12.30",
+   "Size": "small",
+   "Lifetime Cost": "22,673",
+   "Congenital Issues": [{"Area" : "heart", "Issue" : "Pulmonic stenosis"}]
+//end
+//begin
+   "Breed": "Bearded Collie",
+   "Category": "herding",
+   "Popularity Rank": 112,
+   "Life Expectancy": "12.77",
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Beauceron",
+   "Category": "herding",
+   "Popularity Rank": 144,
+   "Life Expectancy": -1,
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Bedlington Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 134,
+   "Life Expectancy": "13.51",
+   "Size": "small",
+   "Lifetime Cost": "20,762",
+   "Congenital Issues": [{"Area" : "liver", "Issue" : "Chronic hepatitis"},{"Area" : "eye", "Issue" : "Retinal dysplasia"}]
+
+//end
+//begin
+   "Breed": "Belgian Malinois",
+   "Category": "herding",
+   "Popularity Rank": 74,
+   "Life Expectancy": -1,
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Belgian Shepherd Dog",
+   "Category": "herding",
+   "Popularity Rank": 118,
+   "Life Expectancy": -1,
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "eye", "Issue" : "Cataracts"},{"Area" : "eye", "Issue" : "Pannus - chronic superficial keratitis"},{"Area" : "eye", "Issue" : "Progressive retinal atrophy"},{"Area" : "muscle", "Issue" : "muscular dystrophy"}]
+//end
+//begin
+   "Breed": "Belgian Shepherd Dog (Tervuren)",
+   "Category": "herding",
+   "Popularity Rank": 108,
+   "Life Expectancy": "10.60",
+   "Size": "large",
+   "Lifetime Cost": "17,978",
+   "Congenital Issues": [{"Area" : "nerves", "Issue" : "Idiopathic epilepsy"},{"Area" : "eye", "Issue" : "Pannus - chronic superficial keratitis"}]
+//end
+//begin
+   "Breed": "Bernese Mountain Dog",
+   "Category": "working",
+   "Popularity Rank": 34,
+   "Life Expectancy": "7.56",
+   "Size": "large",
+   "Lifetime Cost": "13,436",
+   "Congenital Issues": "meningitis; elbow + hip problems; complex immune disorder",
+   "Congenital detail": "Meningitis; Elbow dysplasia - OCD of the elbow; Hip dysplasia; Histiocytosis"
+//end
+//begin
+   "Breed": "Bichon Frise",
+   "Category": "non-sporting",
+   "Popularity Rank": 39,
+   "Life Expectancy": "12.21",
+   "Size": "small",
+   "Lifetime Cost": "20,138",
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Black and Tan Coonhound",
+   "Category": "hound",
+   "Popularity Rank": 109,
+   "Life Expectancy": -1,
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Black Russian Terrier",
+   "Category": "working",
+   "Popularity Rank": 128,
+   "Life Expectancy": "1.83 - really?",
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Bloodhound",
+   "Category": "hound",
+   "Popularity Rank": 48,
+   "Life Expectancy": "6.75",
+   "Size": "large",
+   "Lifetime Cost": "12,982",
+   "Congenital Issues": [{"Area" : "gastric", "Issue" : "Gastric dilatation-volvulus"},{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Bluetick Coonhound",
+   "Category": "hound",
+   "Popularity Rank": 136,
+   "Life Expectancy": -1,
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Border Collie",
+   "Category": "herding",
+   "Popularity Rank": 45,
+   "Life Expectancy": "12.52",
+   "Size": "medium",
+   "Lifetime Cost": "18,897",
+   "Congenital Issues": [{"Area" : "eye", "Issue" : "Collie eye anomaly"},{"Area" : "ear", "Issue" : "deafness"}]
+//end
+//begin
+   "Breed": "Border Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 80,
+   "Life Expectancy": "14.00",
+   "Size": "small",
+   "Lifetime Cost": "21,245",
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Borzoi",
+   "Category": "hound",
+   "Popularity Rank": 102,
+   "Life Expectancy": "9.08",
+   "Size": "large",
+   "Lifetime Cost": "13,984",
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Boston Terrier",
+   "Category": "non-sporting",
+   "Popularity Rank": 22,
+   "Life Expectancy": "10.92",
+   "Size": "medium",
+   "Lifetime Cost": "16,655",
+   "Congenital Issues": [{"Area" : "lungs", "Issue" : "brachycephalic syndrome"}]
+//end
+//begin
+   "Breed": "Bouvier des Flandres",
+   "Category": "herding",
+   "Popularity Rank": 83,
+   "Life Expectancy": "10.34",
+   "Size": "large",
+   "Lifetime Cost": "16,463",
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "Hip dysplasia"}]
+//end
+//begin
+   "Breed": "Boxer",
+   "Category": "working",
+   "Popularity Rank": 7,
+   "Life Expectancy": "8.81",
+   "Size": "medium",
+   "Lifetime Cost": "13,619",
+   "Congenital Issues": [{"Area" : "eye", "Issue" : "Corneal dystrophy"},{"Area" : "nerve", "Issue" : "Degenerative myelopathy"},{"Area" : "heart", "Issue" : "Dilated cardiomyopathy"},{"Area" : "heart", "Issue" : "Subaortic stenosis"}]
+//end
+//begin
+   "Breed": "Boykin Spaniel",
+   "Category": "sporting",
+   "Popularity Rank": 138,
+   "Life Expectancy": -1,
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Briard",
+   "Category": "herding",
+   "Popularity Rank": 125,
+   "Life Expectancy": "11.17",
+   "Size": "large",
+   "Lifetime Cost": "18,456",
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Brittany",
+   "Category": "sporting",
+   "Popularity Rank": 30,
+   "Life Expectancy": "12.92",
+   "Size": "medium",
+   "Lifetime Cost": "21,182",
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Brussels Griffon",
+   "Category": "toy",
+   "Popularity Rank": 77,
+   "Life Expectancy": "12.00",
+   "Size": "small",
+   "Lifetime Cost": "19,947",
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Bull Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 51,
+   "Life Expectancy": "10.21",
+   "Size": "medium",
+   "Lifetime Cost": "17,378",
+   "Congenital Issues": [{"Area" : "metabolism", "Issue" : "zinc metabolism disorder - lethal acrodermatitis"},{"Area" : "heart", "Issue" : "Mitral valve dysplasia"}]
+//end
+//begin
+   "Breed": "Bulldog",
+   "Category": "non-sporting",
+   "Popularity Rank": 6,
+   "Life Expectancy": "6.29",
+   "Size": "medium",
+   "Lifetime Cost": "12,794",
+   "Congenital Issues": [{"Area" : "lungs", "Issue" : "brachycephalic syndrome"},{"Area" : "hip", "Issue" : "hip dysplasia"},{"Area" : "eye", "Issue" : "Keratoconjunctivitis sicca (KCS) - \"dry eye\""},{"Area" : "heart", "Issue" : "Pulmonic stenosis"},{"Area" : "heart", "Issue" : "Ventricular septal defect (VSD)"}]
+//end
+//begin
+   "Breed": "Bullmastiff",
+   "Category": "working",
+   "Popularity Rank": 40,
+   "Life Expectancy": "7.57",
+   "Size": "large",
+   "Lifetime Cost": "13,112",
+   "Congenital Issues": [{"Area" : "eye", "Issue" : "Entropion"},{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Cairn Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 59,
+   "Life Expectancy": "13.84",
+   "Size": "small",
+   "Lifetime Cost": "22,450",
+   "Congenital Issues": [{"Area" : "jaw", "Issue" : "Craniomandibular osteopathy (\"lion jaw\")"},{"Area" : "heart", "Issue" : "mitral valve dysplasia"}]
+//end
+//begin
+   "Breed": "Canaan Dog",
+   "Category": "herding",
+   "Popularity Rank": 168,
+   "Life Expectancy": "14.67",
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Cane Corso",
+   "Category": "working",
+   "Popularity Rank": 67,
+   "Life Expectancy": -1,
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Cardigan Welsh Corgi",
+   "Category": "herding",
+   "Popularity Rank": 81,
+   "Life Expectancy": "12.70",
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Cavalier King Charles Spaniel",
+   "Category": "toy",
+   "Popularity Rank": 21,
+   "Life Expectancy": "11.29",
+   "Size": "small",
+   "Lifetime Cost": "17,516",
+   "Congenital Issues": [{"Area" : "spine", "Issue" : "Chiari-like malformation (CM) and syringomyelia (SM)"},{"Area" : "heart", "Issue" : "mitral valve dysplasia"}]
+//end
+//begin
+   "Breed": "Cesky Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 106,
+   "Life Expectancy": "8.42",
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Chesapeake Bay Retriever",
+   "Category": "sporting",
+   "Popularity Rank": 46,
+   "Life Expectancy": "9.48",
+   "Size": "large",
+   "Lifetime Cost": "14,408",
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Chihuahua",
+   "Category": "toy",
+   "Popularity Rank": 14,
+   "Life Expectancy": -1,
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "knee", "Issue" : "Patellar luxation"}]
+//end
+//begin
+   "Breed": "Chinese Crested",
+   "Category": "toy",
+   "Popularity Rank": 61,
+   "Life Expectancy": "10.08",
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Chinese Shar Pei",
+   "Category": "non-sporting",
+   "Popularity Rank": 50,
+   "Life Expectancy": -1,
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "general", "Issue" : "canine hay fever - Atopy"},{"Area" : "skin", "Issue" : "Demodicosis/ Demodectic mange"},{"Area" : "eye", "Issue" : "Entropion"},{"Area" : "hip", "Issue" : "hip dysplasia"}] 
+//end
+//begin
+   "Breed": "Chow Chow",
+   "Category": "non-sporting",
+   "Popularity Rank": 68,
+   "Life Expectancy": "9.01",
+   "Size": "medium",
+   "Lifetime Cost": "14,917",
+   "Congenital Issues": [{"Area" : "eye", "Issue" : "Entropion"},{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Clumber Spaniel",
+   "Category": "sporting",
+   "Popularity Rank": 133,
+   "Life Expectancy": "10.00",
+   "Size": "medium",
+   "Lifetime Cost": "16,995",
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Cocker Spaniel",
+   "Category": "sporting",
+   "Popularity Rank": 27,
+   "Life Expectancy": -1,
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "eye", "Issue" : "Retinal dysplasia"},{"Area" : "skin", "Issue" : "seborrhea"}]
+//end
+//begin
+   "Breed": "Collie",
+   "Category": "herding",
+   "Popularity Rank": 36,
+   "Life Expectancy": -1,
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "eye", "Issue" : "Collie eye anomaly (CEA)"},{"Area" : "skin", "Issue" : "Dermatomyositis and ulcerative dermatosis"}]
+//end
+//begin
+   "Breed": "Curly Coated Retriever",
+   "Category": "sporting",
+   "Popularity Rank": 154,
+   "Life Expectancy": "10.75",
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Dachshund",
+   "Category": "hound",
+   "Popularity Rank": 9,
+   "Life Expectancy": "12.63",
+   "Size": "small",
+   "Lifetime Cost": "23,403",
+   "Congenital Issues": [{"Area" : "skin", "Issue" : "acanthosis nigricans"},{"Area" : "spine", "Issue" : "Intervertebral disk disease"}]
+//end
+//begin
+   "Breed": "Dalmatian",
+   "Category": "non-sporting",
+   "Popularity Rank": 73,
+   "Life Expectancy": "11.27",
+   "Size": "medium",
+   "Lifetime Cost": "21,223",
+   "Congenital Issues": [{"Area" : "ear", "Issue" : "deafness"},{"Area" : "bladder", "Issue" : "Urolithiasis (urinary stones)"}]
+//end
+//begin
+   "Breed": "Dandie Dinmont Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 160,
+   "Life Expectancy": "12.17",
+   "Size": "small",
+   "Lifetime Cost": "23,076",
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Doberman Pinscher",
+   "Category": "working",
+   "Popularity Rank": 13,
+   "Life Expectancy": "10.33",
+   "Size": "large",
+   "Lifetime Cost": "19,622",
+   "Congenital Issues": [{"Area" : "heart", "Issue" : "Dilated cardiomyopathy"},{"Area" : "spine", "Issue" : "Cervical vertebral instability (Wobbler syndrome)"},{"Area" : "spine", "Issue" : "Intervertebral disk disease"},{"Area" : "blood", "Issue" : "von Willebrand's disease"}]
+//end
+//begin
+   "Breed": "English Cocker Spaniel",
+   "Category": "sporting",
+   "Popularity Rank": 63,
+   "Life Expectancy": "11.66",
+   "Size": "medium",
+   "Lifetime Cost": "22,031",
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "English Foxhound",
+   "Category": "hound",
+   "Popularity Rank": 171,
+   "Life Expectancy": -1,
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "English Setter",
+   "Category": "sporting",
+   "Popularity Rank": 87,
+   "Life Expectancy": "11.57",
+   "Size": "large",
+   "Lifetime Cost": "19,052",
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"},{"Area" : "ear", "Issue" : "deafness"}]
+//end
+//begin
+   "Breed": "English Springer Spaniel",
+   "Category": "sporting",
+   "Popularity Rank": 29,
+   "Life Expectancy": "12.54",
+   "Size": "medium",
+   "Lifetime Cost": "20,581",
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"},{"Area" : "skin", "Issue" : "seborrhea"},{"Area" : "eye", "Issue" : "Retinal dysplasia"},{"Area" : "general", "Issue" : "Phosphofructokinase (PFK) deficiency"}]
+//end
+//begin
+   "Breed": "English Toy Spaniel",
+   "Category": "toy",
+   "Popularity Rank": 129,
+   "Life Expectancy": "10.10",
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Entlebucher Mountain Dog",
+   "Category": "herding",
+   "Popularity Rank": 146,
+   "Life Expectancy": -1,
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Field Spaniel",
+   "Category": "sporting",
+   "Popularity Rank": 141,
+   "Life Expectancy": "9.90",
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Finnish Lapphund",
+   "Category": "herding",
+   "Popularity Rank": 104,
+   "Life Expectancy": "7.33",
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Finnish Spitz",
+   "Category": "non-sporting",
+   "Popularity Rank": 167,
+   "Life Expectancy": "11.17",
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Flat-Coated Retriever",
+   "Category": "sporting",
+   "Popularity Rank": 90,
+   "Life Expectancy": "9.02",
+   "Size": "medium",
+   "Lifetime Cost": "15,017",
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "French Bulldog",
+   "Category": "non-sporting",
+   "Popularity Rank": 18,
+   "Life Expectancy": "9.00",
+   "Size": "medium",
+   "Lifetime Cost": "16,286",
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "German Pinscher",
+   "Category": "working",
+   "Popularity Rank": 137,
+   "Life Expectancy": "11.42",
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "German Shepherd",
+   "Category": "herding",
+   "Popularity Rank": 2,
+   "Life Expectancy": "9.73",
+   "Size": "large",
+   "Lifetime Cost": "16,356",
+   "Congenital Issues": [{"Area" : "nerves", "Issue" : "Degenerative myelopathy"},{"Area" : "pancreas", "Issue" : "Exocrine pancreatic insufficiency"},{"Area" : "blood", "Issue" : "hemophilia"},{"Area" : "hip", "Issue" : "hip dysplasia"},{"Area" : "general", "Issue" : "Renal cystadenocarcinoma and nodular dermatofibrosis"},{"Area" : "general", "Issue" : "Panosteitis"},{"Area" : "general", "Issue" : "Perianal fistula"},{"Area" : "eye", "Issue" : "Pannus - chronic superficial keratitis"}]
+//end
+//begin
+   "Breed": "German Shorthaired Pointer",
+   "Category": "sporting",
+   "Popularity Rank": 15,
+   "Life Expectancy": "11.46",
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "German Wirehaired Pointer",
+   "Category": "sporting",
+   "Popularity Rank": 75,
+   "Life Expectancy": "10.00",
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Giant Schnauzer",
+   "Category": "working",
+   "Popularity Rank": 95,
+   "Life Expectancy": "10.00",
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Glen of Imaal Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 158,
+   "Life Expectancy": "10.42",
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Golden Retriever",
+   "Category": "sporting",
+   "Popularity Rank": 4,
+   "Life Expectancy": "12.04",
+   "Size": "medium",
+   "Lifetime Cost": "20,136",
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"},{"Area" : "elbow", "Issue" : "elbow dysplasia"},{"Area" : "eye", "Issue" : "retinal dysplasia"},{"Area" : "heart", "Issue" : "subaortic stenosis"}]
+//end
+//begin
+   "Breed": "Gordon Setter",
+   "Category": "sporting",
+   "Popularity Rank": 94,
+   "Life Expectancy": "11.10",
+   "Size": "large",
+   "Lifetime Cost": "18,396",
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Great Dane",
+   "Category": "working",
+   "Popularity Rank": 19,
+   "Life Expectancy": "6.96",
+   "Size": "large",
+   "Lifetime Cost": "12,210",
+   "Congenital Issues": [{"Area" : "spine", "Issue" : "Cervical vertebral instability (Wobbler syndrome)"},{"Area" : "heart", "Issue" : "Dilated cardiomyopathy"}, {"Area" : "gastric", "Issue" : "Gastric dilatation-volvulus"}, {"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Great Pyrenees",
+   "Category": "working",
+   "Popularity Rank": 71,
+   "Life Expectancy": "10.00",
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Greater Swiss Mountain Dog",
+   "Category": "working",
+   "Popularity Rank": 82,
+   "Life Expectancy": "6.80",
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Greyhound",
+   "Category": "hound",
+   "Popularity Rank": 140,
+   "Life Expectancy": "9.36",
+   "Size": "large",
+   "Lifetime Cost": "14,888",
+   "Congenital Issues": [{"Area" : "blood", "Issue" : "familial vasculopathy"}]
+//end
+//begin
+   "Breed": "Harrier",
+   "Category": "hound",
+   "Popularity Rank": 172,
+   "Life Expectancy": -1,
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Havanese",
+   "Category": "toy",
+   "Popularity Rank": 31,
+   "Life Expectancy": "10.25",
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Ibizan Hound",
+   "Category": "hound",
+   "Popularity Rank": 149,
+   "Life Expectancy": -1,
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Icelandic Sheepdog",
+   "Category": "herding",
+   "Popularity Rank": 143,
+   "Life Expectancy": -1,
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Irish Red and White Setter",
+   "Category": "sporting",
+   "Popularity Rank": 147,
+   "Life Expectancy": "11.57",
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Irish Setter",
+   "Category": "sporting",
+   "Popularity Rank": 70,
+   "Life Expectancy": "11.63",
+   "Size": "large",
+   "Lifetime Cost": "19,056",
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"},{"Area" : "eye", "Issue" : "Progressive retinal atrophy"}]
+//end
+//begin
+   "Breed": "Irish Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 132,
+   "Life Expectancy": -1,
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Irish Water Spaniel",
+   "Category": "sporting",
+   "Popularity Rank": 150,
+   "Life Expectancy": "9.33",
+   "Size": "medium",
+   "Lifetime Cost": -1,
+//end
+//begin
+   "Breed": "Irish Wolfhound",
+   "Category": "hound",
+   "Popularity Rank": 79,
+   "Life Expectancy": "6.94",
+   "Size": "large",
+   "Lifetime Cost": "12,472",
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"},{"Area" : "heart", "Issue" : "Dilated cardiomyopathy"},{"Area" : "liver", "Issue" : "Portosystemic shunt"}]
+//end
+//begin
+   "Breed": "Italian Greyhound",
+   "Category": "toy",
+   "Popularity Rank": 65,
+   "Life Expectancy": "10.02",
+   "Size": "small",
+   "Lifetime Cost": "16,794",
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Japanese Chin",
+   "Category": "toy",
+   "Popularity Rank": 78,
+   "Life Expectancy": "9.25",
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Keeshond",
+   "Category": "non-sporting",
+   "Popularity Rank": 98,
+   "Life Expectancy": "12.17",
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Kerry Blue Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 124,
+   "Life Expectancy": "9.40",
+   "Size": "medium",
+   "Lifetime Cost": "16,216",
+   "Congenital Issues": [{"Area" : "heart", "Issue" : "Patent ductus arteriosus (PDA)"}]
+//end
+//begin
+   "Breed": "Komondor",
+   "Category": "working",
+   "Popularity Rank": 166,
+   "Life Expectancy": "9.17",
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Kuvasz",
+   "Category": "working",
+   "Popularity Rank": 148,
+   "Life Expectancy": -1,
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Labrador Retriever",
+   "Category": "sporting",
+   "Popularity Rank": 1,
+   "Life Expectancy": "12.04",
+   "Size": "medium",
+   "Lifetime Cost": "19,987",
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"},{"Area" : "eye", "Issue" : "retinal dysplasia"}, {"Area" : "elbow", "Issue" : "elbow dysplasia"}]
+//end
+//begin
+   "Breed": "Lakeland Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 135,
+   "Life Expectancy": -1,
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Leonberger",
+   "Category": "working",
+   "Popularity Rank": 103,
+   "Life Expectancy": "6.98",
+   "Size": "large",
+   "Lifetime Cost": "12,682",
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Lhasa Apso",
+   "Category": "non-sporting",
+   "Popularity Rank": 62,
+   "Life Expectancy": "13.92",
+   "Size": "small",
+   "Lifetime Cost": "22,491",
+   "Congenital Issues": [{"Area" : "eye", "Issue" : "Keratoconjunctivitis sicca (KCS) - \"dry eye\""}]
+//end
+//begin
+   "Breed": "L�wchen",
+   "Category": "non-sporting",
+   "Popularity Rank": 152,
+   "Life Expectancy": "10.00",
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Maltese",
+   "Category": "toy",
+   "Popularity Rank": 23,
+   "Life Expectancy": "12.25",
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "heart", "Issue" : "Patent ductus arteriosus (PDA)"}]
+//end
+//begin
+   "Breed": "Manchester Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 119,
+   "Life Expectancy": "9.32",
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Mastiff",
+   "Category": "working",
+   "Popularity Rank": 28,
+   "Life Expectancy": "6.50",
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"},{"Area" : "heart", "Issue" : "Pulmonic stenosis"}]
+//end
+//begin
+   "Breed": "Miniature Bull Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 127,
+   "Life Expectancy": "6.60",
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Miniature Pinscher",
+   "Category": "toy",
+   "Popularity Rank": 42,
+   "Life Expectancy": -1,
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Miniature Schnauzer",
+   "Category": "terrier",
+   "Popularity Rank": 12,
+   "Life Expectancy": "11.81",
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "liver", "Issue" : "Portosystemic shunt"},{"Area" : "sinus", "Issue" : "Sick sinus syndrome"}]
+//end
+//begin
+   "Breed": "Neapolitan Mastiff",
+   "Category": "working",
+   "Popularity Rank": 110,
+   "Life Expectancy": -1,
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Newfoundland",
+   "Category": "working",
+   "Popularity Rank": 43,
+   "Life Expectancy": "9.32",
+   "Size": "large",
+   "Lifetime Cost": "22,608",
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"},{"Area" : "heart","Issue" : "subaortic stenosis"}]
+//end
+//begin
+   "Breed": "Norfolk Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 120,
+   "Life Expectancy": "13.07",
+   "Size": "small",
+   "Lifetime Cost": "32,057",
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Norwegian Buhund",
+   "Category": "herding",
+   "Popularity Rank": 165,
+   "Life Expectancy": "12.67",
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Norwegian Elkhound",
+   "Category": "hound",
+   "Popularity Rank": 96,
+   "Life Expectancy": -1,
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Norwegian Lundehund",
+   "Category": "non-sporting",
+   "Popularity Rank": 170,
+   "Life Expectancy": -1,
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Norwich Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 89,
+   "Life Expectancy": -1,
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Nova Scotia Duck Tolling Retriever",
+   "Category": "sporting",
+   "Popularity Rank": 107,
+   "Life Expectancy": "6.50",
+   "Size": "medium",
+   "Lifetime Cost": "11,945",
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Old English Sheepdog",
+   "Category": "herding",
+   "Popularity Rank": 84,
+   "Life Expectancy": "11.19",
+   "Size": "medium",
+   "Lifetime Cost": "18,669",
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Otterhound",
+   "Category": "hound",
+   "Popularity Rank": 169,
+   "Life Expectancy": "10.80",
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Papillon",
+   "Category": "toy",
+   "Popularity Rank": 38,
+   "Life Expectancy": "13.00",
+   "Size": "small",
+   "Lifetime Cost": "21,431",
+   "Congenital Issues": [{"Area" : "eye", "Issue" : "Progressive retinal atrophy"},{"Area" : "eye", "Issue" : "cataracts"},{"Area" : "hair", "Issue" : "follicular dysplasia"},{"Area" : "blood", "Issue" : "von Willebrand's disease"},{"Area" : "heart", "Issue" : "Mitral valve dysplasia"}]
+//end
+//begin
+   "Breed": "Parson Russell Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 97,
+   "Life Expectancy": -1,
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Pekingese",
+   "Category": "toy",
+   "Popularity Rank": 64,
+   "Life Expectancy": "11.56",
+   "Size": "small",
+   "Lifetime Cost": "19,306",
+   "Congenital Issues": [{"Area" : "knee", "Issue" : "Patellar luxation"}]
+//end
+//begin
+   "Breed": "Pembroke Welsh Corgi",
+   "Category": "herding",
+   "Popularity Rank": 25,
+   "Life Expectancy": "12.25",
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "connective tissue", "Issue" : "Cutaneous asthenia (Ehlers-Danlos syndrome)"},{"Area" : "spine", "Issue" : "Degenerative myelopathy"},{"Area" : "blood", "Issue" : "von Willebrand's disease"},{"Area" : "spine", "Issue" : "Intervertebral disk disease"},{"Area" : "eye", "Issue" : "cataracts"} ,{"Area" : "eye", "Issue" : "Corneal dystrophy"},{"Area" : "eye", "Issue" : "Persistent pupillary membranes (PPM)"},{"Area" : "eye", "Issue" : "Retinal dysplasia"},{"Area" : "kidney", "Issue" : "Familial kidney disease"},{"Area" : "knee", "Issue" : "Patellar luxation"}]
+//end
+//begin
+   "Breed": "Petit Basset Griffon Vendeen",
+   "Category": "hound",
+   "Popularity Rank": 131,
+   "Life Expectancy": "12.70",
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Pharaoh Hound",
+   "Category": "hound",
+   "Popularity Rank": 151,
+   "Life Expectancy": "11.83",
+   "Size": "medium",
+   "Lifetime Cost": "19,759",
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Plott",
+   "Category": "hound",
+   "Popularity Rank": 145,
+   "Life Expectancy": -1,
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Pointer",
+   "Category": "sporting",
+   "Popularity Rank": 115,
+   "Life Expectancy": "12.42",
+   "Size": "large",
+   "Lifetime Cost": "22,896",
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Polish Lowland Sheepdog",
+   "Category": "herding",
+   "Popularity Rank": 159,
+   "Life Expectancy": "10.80",
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Pomeranian",
+   "Category": "toy",
+   "Popularity Rank": 17,
+   "Life Expectancy": "9.67",
+   "Size": "small",
+   "Lifetime Cost": "18,312",
+   "Congenital Issues": [{"Area" : "heart", "Issue" : "Patent ductus arteriosus (PDA)"}]
+//end
+//begin
+   "Breed": "Poodle",
+   "Category": "non-sporting",
+   "Popularity Rank": 8,
+   "Life Expectancy": "11.95",
+   "Size": "medium",
+   "Lifetime Cost": "22,654",
+   "Congenital Issues": [{"Area" : "gastric", "Issue" : "Gastric dilatation-volvulus (serious stomach disorder)"},{"Area" : "skin", "Issue" : "sebaceous adenitis"}]
+//end
+//begin
+   "Breed": "Portuguese Water Dog",
+   "Category": "working",
+   "Popularity Rank": 56,
+   "Life Expectancy": "11.42",
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Pug",
+   "Category": "toy",
+   "Popularity Rank": 26,
+   "Life Expectancy": "11.00",
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "eye", "Issue" : "Keratoconjunctivitis sicca (KCS) - \"dry eye\""}]
+//end
+//begin
+   "Breed": "Puli",
+   "Category": "herding",
+   "Popularity Rank": 156,
+   "Life Expectancy": -1,
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Pyrenean Shepherd",
+   "Category": "herding",
+   "Popularity Rank": 162,
+   "Life Expectancy": -1,
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Redbone Coonhound",
+   "Category": "hound",
+   "Popularity Rank": 126,
+   "Life Expectancy": -1,
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Rhodesian Ridgeback",
+   "Category": "hound",
+   "Popularity Rank": 44,
+   "Life Expectancy": "9.10",
+   "Size": "large",
+   "Lifetime Cost": "15,538",
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"},{"Area" : "sinus", "Issue" : "dermoid sinus"}]
+//end
+//begin
+   "Breed": "Rottweiler",
+   "Category": "working",
+   "Popularity Rank": 10,
+   "Life Expectancy": "9.11",
+   "Size": "large",
+   "Lifetime Cost": "15,677",
+   "Congenital Issues": [{"Area" : "heart", "Issue" : "subaortic stenosis"},{"Area" : "elbow", "Issue" : "elbow dysplasia - OCD of the elbow"},{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Saint Bernard",
+   "Category": "working",
+   "Popularity Rank": 49,
+   "Life Expectancy": "7.78",
+   "Size": "large",
+   "Lifetime Cost": "13,338",
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"},{"Area" : "gastric", "Issue" : "Gastric dilatation-volvulus"},{"Area" : "heart", "Issue" : "Dilated cardiomyopathy"}]
+//end
+//begin
+   "Breed": "Saluki",
+   "Category": "hound",
+   "Popularity Rank": 117,
+   "Life Expectancy": "12.00",
+   "Size": "medium",
+   "Lifetime Cost": "20,639",
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Samoyed",
+   "Category": "working",
+   "Popularity Rank": 69,
+   "Life Expectancy": "12.44",
+   "Size": "medium",
+   "Lifetime Cost": "20,970",
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Schipperke",
+   "Category": "non-sporting",
+   "Popularity Rank": 105,
+   "Life Expectancy": "13.00",
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "skin", "Issue" : "Pemphigus"},{"Area" : "general", "Issue" : "Diabetes mellitus"},{"Area" : "hair", "Issue" : "colour dilution alopecia"},{"Area" : "hair", "Issue" : "Follicular dysplasias"},{"Area" : "gastric", "Issue" : "Gastric dilatation-volvulus"},{"Area" : "heart", "Issue" : "Dilated cardiomyopathy"}]
+//end
+//begin
+   "Breed": "Scottish Deerhound",
+   "Category": "hound",
+   "Popularity Rank": 142,
+   "Life Expectancy": "8.70",
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "gastric", "Issue" : "Gastric dilatation-volvulus"},{"Area" : "heart", "Issue" : "Dilated cardiomyopathy"}]
+//end
+//begin
+   "Breed": "Scottish Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 54,
+   "Life Expectancy": "10.69",
+   "Size": "small",
+   "Lifetime Cost": "16,462",
+   "Congenital Issues": [{"Area" : "blood", "Issue" : "von Willebrand's disease"}]
+//end
+//begin
+   "Breed": "Sealyham Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 163,
+   "Life Expectancy": "12.25",
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "eye", "Issue" : "retinal dysplasia"}]
+//end
+//begin
+   "Breed": "Shetland Sheepdog",
+   "Category": "herding",
+   "Popularity Rank": 20,
+   "Life Expectancy": "12.53",
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "heart", "Issue" : "Patent ductus arteriosus (PDA)"},{"Area" : "skin", "Issue" : "Dermatomyositis and ulcerative dermatosis"},{"Area" : "blood", "Issue" : "von Willebrand's disease"},{"Area" : "eye", "Issue" : "Collie eye anomaly (CEA)"},{"Area" : "dear", "Issue" : "deafness"}]
+//end
+//begin
+   "Breed": "Shiba Inu",
+   "Category": "non-sporting",
+   "Popularity Rank": 53,
+   "Life Expectancy": "7.00",
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Shih Tzu",
+   "Category": "toy",
+   "Popularity Rank": 11,
+   "Life Expectancy": "13.20",
+   "Size": "small",
+   "Lifetime Cost": "19,839",
+   "Congenital Issues": [{"Area" : "eye", "Issue" : "Exposure keratopathy syndrome (exophthalmos; lagophthalmos; and/or macroblepharon)"}]
+//end
+//begin
+   "Breed": "Siberian Husky",
+   "Category": "working",
+   "Popularity Rank": 16,
+   "Life Expectancy": "12.58",
+   "Size": "medium",
+   "Lifetime Cost": "19,011",
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Silky Terrier",
+   "Category": "toy",
+   "Popularity Rank": 85,
+   "Life Expectancy": "14.25",
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Skye Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 164,
+   "Life Expectancy": "11.00",
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Smooth Fox Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 113,
+   "Life Expectancy": "13.17",
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Soft-Coated Wheaten Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 52,
+   "Life Expectancy": "12.16",
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Spinone Italiano",
+   "Category": "sporting",
+   "Popularity Rank": 123,
+   "Life Expectancy": "9.00",
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Staffordshire Bull Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 76,
+   "Life Expectancy": "12.05",
+   "Size": "medium",
+   "Lifetime Cost": "20,338",
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Standard Schnauzer",
+   "Category": "working",
+   "Popularity Rank": 91,
+   "Life Expectancy": -1,
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Sussex Spaniel",
+   "Category": "sporting",
+   "Popularity Rank": 161,
+   "Life Expectancy": "11.17",
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Swedish Vallhund",
+   "Category": "herding",
+   "Popularity Rank": 153,
+   "Life Expectancy": "14.17",
+   "Size": "small",
+   "Lifetime Cost": "23,307",
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Tibetan Mastiff",
+   "Category": "working",
+   "Popularity Rank": 122,
+   "Life Expectancy": "11.92",
+   "Size": "large",
+   "Lifetime Cost": "22,448",
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Tibetan Spaniel",
+   "Category": "non-sporting",
+   "Popularity Rank": 114,
+   "Life Expectancy": "14.42",
+   "Size": "small",
+   "Lifetime Cost": "23,979",
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Tibetan Terrier",
+   "Category": "non-sporting",
+   "Popularity Rank": 86,
+   "Life Expectancy": "12.31",
+   "Size": "small",
+   "Lifetime Cost": "20,743",
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Toy Fox Terrier",
+   "Category": "toy",
+   "Popularity Rank": 101,
+   "Life Expectancy": -1,
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Vizsla",
+   "Category": "sporting",
+   "Popularity Rank": 37,
+   "Life Expectancy": "12.50",
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Weimaraner",
+   "Category": "sporting",
+   "Popularity Rank": 32,
+   "Life Expectancy": -1,
+   "Size": "large",
+   "Lifetime Cost": -1,
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Welsh Springer Spaniel",
+   "Category": "sporting",
+   "Popularity Rank": 130,
+   "Life Expectancy": "12.49",
+   "Size": "medium",
+   "Lifetime Cost": "20,637",
+   "Congenital Issues": [{"Area" : "hip", "Issue" : "hip dysplasia"}]
+//end
+//begin
+   "Breed": "Welsh Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 99,
+   "Life Expectancy": -1,
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "West Highland White Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 35,
+   "Life Expectancy": "12.80",
+   "Size": "small",
+   "Lifetime Cost": "20,913",
+   "Congenital Issues": [{"Area" : "jaw", "Issue" : "Craniomandibular osteopathy (\"lion jaw\")"},{"Area" : "skin", "Issue" : "seborrhea"},{"Area" : "eye", "Issue" : "Keratoconjunctivitis sicca (KCS) - \"dry eye\""}]
+//end
+//begin
+   "Breed": "Whippet",
+   "Category": "hound",
+   "Popularity Rank": 57,
+   "Life Expectancy": "12.87",
+   "Size": "medium",
+   "Lifetime Cost": "21,401",
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Wire Fox Terrier",
+   "Category": "terrier",
+   "Popularity Rank": 100,
+   "Life Expectancy": "13.17",
+   "Size": "small",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Wirehaired Pointing Griffon",
+   "Category": "sporting",
+   "Popularity Rank": 92,
+   "Life Expectancy": "8.80",
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Xoloitzcuintli",
+   "Category": "non-sporting",
+   "Popularity Rank": 155,
+   "Life Expectancy": -1,
+   "Size": "medium",
+   "Lifetime Cost": -1,
+   "Congenital Issues": []
+//end
+//begin
+   "Breed": "Yorkshire Terrier",
+   "Category": "toy",
+   "Popularity Rank": 5,
+   "Life Expectancy": "12.60",
+   "Size": "small",
+   "Lifetime Cost": "19,447",
+   "Congenital Issues": [{"Area" : "knee", "Issue" : "Patellar luxation"},{"Area" : "liver", "Issue" : "Portosystemic shunt"},{"Area" : "trachea", "Issue" : "tracheal collapse"},{"Area" : "eye", "Issue" : "retinal dysplasia"}]
+ }
