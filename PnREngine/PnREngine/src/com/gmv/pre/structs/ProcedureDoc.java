@@ -12,6 +12,7 @@ import com.gmv.pre.definitions.RoleDefinitions;
 import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 
 /**
  * @author sriramr
@@ -165,12 +166,17 @@ public class ProcedureDoc {
 			return;
 		
 		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
-		MongoCollection<Document> coll = client.getDatabase(__dbName).getCollection(__collName);
-		FindIterable<Document> docs = coll.find(new Document(FieldDefinitions.UNIQUE_ID, id));
-		Iterator<Document> iter = docs.iterator ();
-		if (iter.hasNext()) {
-			Document doc = iter.next();
-			fromDocument (doc);
+		MongoDatabase db = client.getDatabase(__dbName);
+		if (db != null) {
+			MongoCollection<Document> coll = db.getCollection(__collName);
+			if (coll != null) {
+				FindIterable<Document> docs = coll.find(new Document(FieldDefinitions.UNIQUE_ID, id));
+				Iterator<Document> iter = docs.iterator ();
+				if (iter.hasNext()) {
+					Document doc = iter.next();
+					fromDocument (doc);
+				}
+			}
 		}
 		client.close();
 	}
@@ -180,13 +186,18 @@ public class ProcedureDoc {
 			return;
 		
 		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
-		MongoCollection<Document> coll = client.getDatabase(__dbName).getCollection(__collName);
-		Document doc = toDocument ();
-		Document match = new Document (FieldDefinitions.UNIQUE_ID, __id);
-		if (coll.count(match) > 0) {
-			coll.findOneAndReplace(match, doc);
-		} else {
-			coll.insertOne(doc);
+		MongoDatabase db = client.getDatabase(__dbName);
+		if (db != null) {
+			MongoCollection<Document> coll = db.getCollection(__collName);
+			if (coll != null) {
+				Document doc = toDocument ();
+				Document match = new Document (FieldDefinitions.UNIQUE_ID, __id);
+				if (coll.count(match) > 0) {
+					coll.findOneAndReplace(match, doc);
+				} else {
+					coll.insertOne(doc);
+				}
+			}
 		}
 		client.close();
 	}
@@ -197,17 +208,23 @@ public class ProcedureDoc {
 			return toReturn;
 		
 		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
-		MongoCollection<Document> coll = client.getDatabase(__dbName).getCollection(__collName);
-		Document docToFind = new Document (FieldDefinitions.NAME, name);
-		FindIterable<Document> found = coll.find(docToFind);
-		Iterator<Document> iter = found.iterator ();
-		toReturn = "[";
-		while (iter.hasNext()) {
-			Document doc = iter.next ();
-			toReturn += doc.toJson();
-			if (iter.hasNext()) {toReturn += ",";}
+		MongoDatabase db = client.getDatabase(__dbName);
+		if (db != null) {
+			MongoCollection<Document> coll = db.getCollection(__collName);
+			if (coll != null) {
+				Document docToFind = new Document (FieldDefinitions.NAME, name);
+				FindIterable<Document> found = coll.find(docToFind);
+				Iterator<Document> iter = found.iterator ();
+				toReturn = "[";
+				while (iter.hasNext()) {
+					Document doc = iter.next ();
+					toReturn += doc.toJson();
+					if (iter.hasNext()) {toReturn += ",";}
+				}
+				toReturn += "]";
+			}
 		}
-		toReturn += "]";
+		client.close();
 		return toReturn;
 	}
 	
@@ -469,7 +486,10 @@ public class ProcedureDoc {
 			toInsert.append("Exit Penalty", 100);
 		}
 		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
-		MongoCollection<Document> coll = client.getDatabase(__dbName).getCollection(__collName);
+		MongoDatabase db = client.getDatabase(__dbName);
+		if (db == null) {return;}
+		MongoCollection<Document> coll = db.getCollection(__collName);
+		if (coll == null) {return;}
 		Document toFind = new Document(FieldDefinitions.UNIQUE_ID, procID);
 		FindIterable<Document> iterable = coll.find(toFind);
 		Iterator<Document> iter = iterable.iterator ();
@@ -621,6 +641,11 @@ public class ProcedureDoc {
 			return true;
 		
 		return false;
+	}
+	
+	public static void populateCollection () {
+		createAndAddAtomicProcedures();
+		createAndAddBundles();
 	}
 	
 	public static void createAndAddAtomicProcedures () {

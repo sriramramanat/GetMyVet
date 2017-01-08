@@ -162,15 +162,19 @@ public class BreedDoc {
 	public void Write () {
 		if (__dbName == "" || __collName == "")
 			return;
-		
+
 		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
-		MongoCollection<Document> coll = client.getDatabase(__dbName).getCollection(__collName);
-		Document doc = toDocument ();
-		Document match = new Document (FieldDefinitions.UNIQUE_ID, __id);
-		if (coll.count(match) > 0) {
-			coll.findOneAndReplace(match, doc);
-		} else {
-			coll.insertOne(doc);
+		try {
+			MongoCollection<Document> coll = client.getDatabase(__dbName).getCollection(__collName);
+			Document doc = toDocument ();
+			Document match = new Document (FieldDefinitions.UNIQUE_ID, __id);
+			if (coll.count(match) > 0) {
+				coll.findOneAndReplace(match, doc);
+			} else {
+				coll.insertOne(doc);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		client.close();
 	}

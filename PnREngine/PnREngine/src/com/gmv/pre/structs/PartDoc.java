@@ -29,6 +29,24 @@ public class PartDoc {
 		__collName = collName;
 	}
 
+	public static void populateCollection () {
+		PartDoc pd = new PartDoc ("GMV_PART_001");
+		pd.setName ("Standard Plate");
+		pd.setType ("Plate");
+		pd.setVariantLevel (0);
+		pd.setDescription("Standard Plate");
+		pd.setStandardPrice(2900);
+		pd.write();
+	
+		pd = new PartDoc ("GMV_PART_002");
+		pd.setName ("Large Plate");
+		pd.setType ("Plate");
+		pd.setVariantLevel (1);
+		pd.setDescription("Large Plate");
+		pd.setStandardPrice(3500);
+		pd.write();
+	}
+	
 	public PartDoc () {
 		initAndSetDefaults ();
 	}
@@ -36,7 +54,7 @@ public class PartDoc {
 	public PartDoc (String id) {
 		initAndSetDefaults ();
 		__id = id;
-		Read (id);
+		read (id);
 	}
 	
 	private void initAndSetDefaults () {
@@ -80,7 +98,7 @@ public class PartDoc {
 		return toDocument().toJson();
 	}
 
-	public void Read (String id) {
+	public void read (String id) {
 		if (__dbName == "" || __collName == "")
 			return;
 		
@@ -95,7 +113,7 @@ public class PartDoc {
 		client.close();
 	}
 	
-	public void Write () {
+	public void write () {
 		if (__dbName == "" || __collName == "")
 			return;
 		

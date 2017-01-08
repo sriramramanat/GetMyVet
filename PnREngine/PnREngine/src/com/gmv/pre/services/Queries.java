@@ -358,7 +358,7 @@ public class Queries {
 		dblList.add(ztc.lon);
 		dblList.add(ztc.lat);
 		
-		Document toFind = new Document ("loc" , new Document ("$near" , new Document ("$geometry" , new Document ("type" , "Point").append("coordinates" , dblList)).append("$maxDistance" , dist)));
+		Document toFind = new Document ("Location" , new Document ("$near" , new Document ("$geometry" , new Document ("type" , "Point").append("coordinates" , dblList)).append("$maxDistance" , dist)));
 		if (animal != null && !animal.isEmpty()) {
 			BasicDBList animalsTreated = new BasicDBList();
 			animalsTreated.add("all");
@@ -392,7 +392,24 @@ public class Queries {
 									@QueryParam("dist") long dist,
 									@QueryParam("for") String animal,
 									@QueryParam("bundle") String bundle,
-									@QueryParam("rank") double rank) {
+									@QueryParam("wrank") double wrank,
+									@QueryParam("mrank") double mrank,
+									@QueryParam("crank") double crank,
+									@QueryParam("minprice") double minprice,
+									@QueryParam("maxprice") double maxprice,
+									@QueryParam("numoffices") int numoffices,
+									@QueryParam("numproviders") int numproviders,
+									@QueryParam("financereq") boolean financereq,
+									@QueryParam("promo") boolean promo,
+									@QueryParam("cancelpolicy") String cancelpolicy,
+									@QueryParam("vetpref") String vetpref,
+									@QueryParam("age") double age,
+									@QueryParam("weight") double weight,
+									@QueryParam("gender") String gender,
+									@QueryParam("breed") String breed,
+									@QueryParam("start") String sday,
+									@QueryParam("end") String eday,
+									@QueryParam("time") String time) {
 		
 		/* Construct a query like this - 
 		 * find(
@@ -424,18 +441,131 @@ public class Queries {
 		dblList.add(ztc.lon);
 		dblList.add(ztc.lat);
 		
-		Document toFind = new Document ("Rendering Location" , new Document ("$near" , new Document ("$geometry" , new Document ("type" , "Point").append("coordinates" , dblList)).append("$maxDistance" , dist)));
+		Document toFind = new Document (FieldDefinitions.RENDERING_LOC, new Document ("$near" , new Document ("$geometry" , new Document ("type" , "Point").append("coordinates" , dblList)).append("$maxDistance" , dist)));
+
 		if (animal != null && !animal.isEmpty()) {
-			animal = "dog";
-			toFind.append("Applies To.Type", new Document("$in", animal));
+			BasicDBList animalsTreated = new BasicDBList();
+			animalsTreated.add("all");
+			animalsTreated.add("any");
+			animalsTreated.add(animal);
+			toFind.append("Applies To.Type", new Document("$in", animalsTreated));
 		}
+		
+		//age requirement
+		if (age > 0) {
+			toFind.append("Applies To.Min age", new BasicDBObject("$lte", age));
+			toFind.append("Applies To.Max age", new BasicDBObject("$gte", age));
+		}
+		
+		//weight requirement
+		if (weight > 0) {
+			toFind.append("Applies To.Min Weight(lbs)", new BasicDBObject("$lte", weight));
+			toFind.append("Applies To.Max Weight(lbs)", new BasicDBObject("$gte", weight));
+		}
+		
+		//gender
+		if (gender != null && !gender.isEmpty()) {
+			BasicDBList genderList = new BasicDBList();
+			genderList.add("all");
+			genderList.add("any");
+			genderList.add(gender);
+			toFind.append("Applies To.Gender", new Document ("$in", genderList)); 
+		}
+		
+		//breed
+		if (breed != null && !breed.isEmpty()) {
+			BasicDBList breedList = new BasicDBList();
+			breedList.add("all");
+			breedList.add("any");
+			breedList.add(breed);
+			toFind.append("Applies To.Breed", new Document ("$in", breedList)); 
+		}
+
+		//default all query parameters
+		// bundle
 		if (bundle == null || bundle.isEmpty()) {
 			bundle = "TPLO";
 		}
 		toFind.append("Template Name", new BasicDBObject("$regex", bundle).append("$options", "i"));
-		toFind.append("Provider Rank.Composite Ranking", new Document("$gt", rank));
+		
+		// ranking
+		String rankField = FieldDefinitions.PROVIDER_RANK + ".";
+		toFind.append(rankField + FieldDefinitions.COMPOSITE_RANKING, new Document("$gte", crank));
+		toFind.append(rankField + FieldDefinitions.WAIT_TIME_RANKING, new Document("$gte", wrank));
+		toFind.append(rankField + FieldDefinitions.BED_SIDE_MANNERS_RANKING, new Document("$gte", mrank));
+
+		// price
+		if (maxprice < 0.1 || maxprice < minprice) {
+			maxprice = 100000;
+		}
+		toFind.append(FieldDefinitions.BASE_PRICE, new Document("$gte", minprice).append("$lte", maxprice));
+		
+		// number of offices
+		if (numoffices < 1) {
+			numoffices = 1000;
+		}
+		toFind.append(FieldDefinitions.NUM_OFFICES, new Document ("$lte", numoffices));
+		
+		// number of providers
+		if (numproviders < 1) {
+			numproviders = 1000;
+		}
+		toFind.append(FieldDefinitions.NUM_PROVIDERS, new Document ("$lte", numproviders));
+		
+		// finance requirement
+		if (financereq) {
+			toFind.append(FieldDefinitions.FINANCING_AVAILABLE, financereq);
+		}
+		
+		// promo available
+		if (promo) {
+			toFind.append(FieldDefinitions.PROMO_AVAILABLE, promo);
+		}
+
+		// cancellation policy
+		if (cancelpolicy != null && !cancelpolicy.isEmpty()) {
+			if (cancelpolicy.equals("Strict")) {
+				toFind.append(FieldDefinitions.CANCEL_PENALTY, new BasicDBObject("$lte", QueryDefaults.STRICT_CANCEL_PENALTY));
+			} else if (cancelpolicy.equals("Moderate")) {
+				toFind.append(FieldDefinitions.CANCEL_PENALTY, new BasicDBObject("$lte", QueryDefaults.MODERATE_CANCEL_PENALTY));
+			} else if (cancelpolicy.equals("Flexible")) {
+				toFind.append(FieldDefinitions.CANCEL_PENALTY, new BasicDBObject("$lte", QueryDefaults.FLEXIBLE_CANCEL_PENALTY));
+			}
+		}
+
+		// preferred vet
+		if (vetpref != null && !vetpref.isEmpty()) {
+			toFind.append(FieldDefinitions.PROVIDER_NAME, new BasicDBObject("$regex", vetpref).append("$options", "i"));
+		}
+		
+		// time pref
+		boolean useday = false;
+		Date startDay = null;
+		Date endDay = null;
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		if (sday != null && !sday.isEmpty()) {
+			try {
+				startDay = sdf.parse(sday);
+				if (eday != null && !eday.isEmpty()) {
+					endDay = sdf.parse(eday);
+				} else {
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(startDay);
+					cal.add(Calendar.DAY_OF_MONTH, 5);
+					endDay = cal.getTime();
+				}
+				useday = true;
+			} catch (Exception e) {
+			}
+		}
+		
+		if (useday) {
+			toFind.append("Available Timeslots.Time", new BasicDBObject ("$gte", startDay).append("$lte", endDay));
+			toFind.append("Available Timeslots.Available", true);
+		}
+
 		MongoClient client = new MongoClient();
-		MongoCollection<Document> coll = client.getDatabase("gmv_no_sql").getCollection("sellable_bundles");
+		MongoCollection<Document> coll = client.getDatabase(DatabaseDefinitions.NOSQL_DB).getCollection(DatabaseDefinitions.BUNDLE_COLL);
 		FindIterable<Document> iterable = coll.find(toFind);
 		Iterator<Document> iter = iterable.iterator ();
 		ArrayList<Document> queryList = new ArrayList<Document>();
@@ -448,6 +578,7 @@ public class Queries {
 		queryOut.append("Time Taken", end.getTime()-start.getTime());
 		queryOut.append("Count", queryList.size());
 		queryOut.append("Matches", queryList);
+		queryOut.append("Query Run", toFind.toJson());
 		client.close();
 		return Response.status(200).entity(queryOut.toJson()).build();
 	}

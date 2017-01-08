@@ -8,6 +8,7 @@ import com.mongodb.ServerAddress;
 
 public class DatabaseDefinitions {
 	public final static String NOSQL_DB = "gmv_no_sql";
+	public static final String GEO_LOCATION_COLL = "geoloc";
 	public static final String USERDEF_COLL = "userdef";
 	public static final String USER_COLL = "users";
 	public final static String BREED_COLL = "breeds";
@@ -15,9 +16,10 @@ public class DatabaseDefinitions {
 	public static final String PROCEDURE_COLL = "procedures";
 	public static final String PET_COLL = "pets";
 	public static final String OWNER_COLL = "owners";
-	public static final String PART_COLL = "part";
+	public static final String PART_COLL = "parts";
 	public static final String PRACTITIONER_COLL = "practitioner";
 	public static final String OFFERING_COLL = "offering";
+	public static final String BUNDLE_COLL = "sellable_bundles";
 	
 	public static final String BREED_COLL_VER = "1.0";
 	public static final String PRAC_COLL_VER = "1.0";

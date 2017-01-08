@@ -66,8 +66,8 @@ public class ZipToCoord {
 	
 	protected void addCoordsForZip () {
 		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
-		MongoDatabase db = client.getDatabase("gmv_db");
-		MongoCollection<Document> coll = db.getCollection("geoLoc");
+		MongoDatabase db = client.getDatabase(DatabaseDefinitions.NOSQL_DB);
+		MongoCollection<Document> coll = db.getCollection(DatabaseDefinitions.GEO_LOCATION_COLL);
 		Document d = new Document ("zip", zip);
 		d.append("country", country);
 		d.append("lat", lat);

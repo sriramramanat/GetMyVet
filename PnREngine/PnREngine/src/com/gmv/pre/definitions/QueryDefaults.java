@@ -8,6 +8,9 @@ public class QueryDefaults {
 	public static final double CANCEL_PENALTY = 100;
 	public static final long MIN_RESULTS = 5;
 	public static final double MAX_PRICE = 1000000;
+	public static final Object STRICT_CANCEL_PENALTY = 0.2;
+	public static final Object MODERATE_CANCEL_PENALTY = 0.1;
+	public static final Object FLEXIBLE_CANCEL_PENALTY = 0.05;
 	
 	public static final String COORDINATES = "coordinates";
 	public static final String GEOMETRY = "$geometry";

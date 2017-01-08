@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -24,6 +25,7 @@ import org.bson.BsonArray;
 import org.bson.BsonDouble;
 import org.bson.Document;
 
+import com.gmv.pre.core.Comparator;
 import com.gmv.pre.db.mongo.MongoFileStorage;
 import com.gmv.pre.db.mongo.MongoInterface;
 import com.gmv.pre.definitions.DatabaseDefinitions;
@@ -37,6 +39,7 @@ import com.gmv.pre.structs.BundleDoc;
 import com.gmv.pre.structs.OfferingDoc;
 import com.gmv.pre.structs.PartDoc;
 import com.gmv.pre.structs.PetDoc;
+import com.gmv.pre.structs.PracticeDoc;
 import com.gmv.pre.structs.PractitionerDoc;
 import com.gmv.pre.structs.ProcedureDoc;
 import com.gmv.pre.structs.UserDefDoc;
@@ -205,184 +208,6 @@ public class TestMain {
 		pd.Write();
 	}
 	
-	public static void createAndAddParts () {
-		PartDoc pd = new PartDoc ("GMV_PART_001");
-		pd.setName ("Dental Filling");
-		pd.setType ("Dental Filling");
-		pd.setVariantLevel (0);
-		pd.setDescription("Plaster Filling");
-		pd.Write();
-		
-		pd = new PartDoc ("GMV_PART_002");
-		pd.setName ("Dental Filling");
-		pd.setType ("Dental Filling");
-		pd.setVariantLevel (1);
-		pd.setDescription("Ceramic Filling");
-		pd.Write();
-		
-		pd = new PartDoc ("GMV_PART_003");
-		pd.setName ("Standard Plate");
-		pd.setType ("Plate");
-		pd.setVariantLevel (0);
-		pd.setDescription("Standard Plate");
-		pd.setStandardPrice(2900);
-		pd.Write();
-	
-		pd = new PartDoc ("GMV_PART_004");
-		pd.setName ("Large Plate");
-		pd.setType ("Plate");
-		pd.setVariantLevel (1);
-		pd.setDescription("Large Plate");
-		pd.setStandardPrice(3500);
-		pd.Write();
-	}
-	
-	public static void importPracticesToDB (String csvFileName, String dbName, String collName) {
-		// Open up Mongo Connection
-		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
-		for (int i = 0; i < DatabaseDefinitions.MONGO_SERVER_LIST.size(); i++) {
-			ServerAddress sa = DatabaseDefinitions.MONGO_SERVER_LIST.get(i);
-			System.out.println("Server config - " + sa.toString());
-		}
-		MongoDatabase db = client.getDatabase (dbName);
-		MongoCollection<Document> coll = db.getCollection (collName);
-/*		MongoCollection<Document> offeringColl = db.getCollection("offering");
-*/		if (db == null || coll == null) {
-			client.close();
-			return;
-		}
-
-		int id = 1;
-		// Open up the CSV file and read every record
-        String splitBy = ",";
-        String name = "", street = "", city = "", state = "", zip = "", phone = "", longitude = "", latitude = "";
-        try {
-			BufferedReader br = new BufferedReader(new FileReader(csvFileName));
-			String line = br.readLine();
-			while(line!=null){
-			     String[] b = line.split(splitBy);
-			     if (b.length < 8) {
-			    	 // missing one of the fields - just move on
-			    	 line = br.readLine(); 
-		    	 } else if (b[4].contains(FieldDefinitions.LONGITUDE) ||
-		    			 	b[5].contains(FieldDefinitions.LATITUDE)) {
-		    		 // Header line. Ignore this and go to the next line
-		    		 line = br.readLine();
-		    	 }
-			     else {
-			    	 String uid = FieldDefinitions.PRACTICE_PREFIX + id++;
-			    	 name = b[0];
-			    	 city = b[1];
-			    	 state = b[2];
-			    	 zip = b[3];
-			    	 longitude = b[4];
-			    	 latitude = b[5];
-			    	 street = b[6];
-			    	 phone = b[7];
-				     Document d = new Document (FieldDefinitions.NAME, name);
-				     d.append("Street", street);
-				     d.append("City", city);
-				     d.append("State", state);
-				     d.append("Zip", zip);
-				     d.append("Phone", phone);
-				     BsonDouble longitude_d = new BsonDouble (Double.parseDouble(longitude));
-				     BsonDouble latitude_d = new BsonDouble(Double.parseDouble(latitude));
-				     Document loc = new Document ("type", "Point");
-				     loc.append("coordinates", new BsonArray(Arrays.asList(longitude_d, latitude_d)));
-				     d.append ("loc", loc);
-				     d.append (FieldDefinitions.UNIQUE_ID, uid);
-				     double wTimeRank = Math.random() * 5;
-				     double bRank = Math.random() * 5;
-				     double cRank = 0.5 * wTimeRank + 0.5 * bRank;
-				     ArrayList<String> animals = new ArrayList<String>();
-				     if (wTimeRank > bRank) {
-				    	 animals.add("dog");
-				    	 animals.add("cat");
-				     } else {
-				    	 animals.add("cat");
-				     }
-				     Document ranking = new Document (FieldDefinitions.WAIT_TIME_RANKING, wTimeRank);
-				     ranking.append(FieldDefinitions.BED_SIDE_MANNERS_RANKING, bRank);
-				     ranking.append(FieldDefinitions.COMPOSITE_RANKING, cRank);
-				     d.append (FieldDefinitions.RANKING, ranking);
-				     d.append(FieldDefinitions.ANIMALS_TREATED, animals);
-				     line=br.readLine();
-				     coll.insertOne(d);
-				     if (state.contains("NY") || state.contains("NJ") || state.contains("MD") || state.contains("DC")) {
-				     
-				     //now insert offerings for this. First get a random number
-/*				     double randomNum = Math.random();
-				     //set name and ID
-				     bronze.setID(uid + "-TPLO_Bronze");
-				     bronze.setName(uid + "-TPLO_Bronze");
-				     silver.setID(uid + "-TPLO_Silver");
-				     silver.setName(uid + "-TPLO_Silver");
-				     gold.setID(uid + "-TPLO_Silver");
-				     gold.setName(uid + "-TPLO_Silver");
-				     
-					//set base and promo prices
-					if (randomNum > 0.5) {
-						bronze.setFinancingAvailable(true);
-					}
-					bronze.setBasePrice(5000 * randomNum);
-					bronze.setPromoPrice(4000 * randomNum);
-					bronze.setPartner("GMV_PROC_A_300", "GMV_PRACT");
-					bronze.setOffice("GMV_PROC_A_203", "Main Street Lab Services");
-					bronze.setCancellationPenalty(10);
-					bronze.setDescription("bronze or standard version 1 extra office and 1 extra provider");
-					bronze.setProviderDetails(uid, name, loc, ranking);
-					offeringColl.insertOne(bronze.toDocument());
-
-					if (randomNum > 0.5) {
-						silver.setFinancingAvailable(true);
-					}
-					silver.setBasePrice(6000 * randomNum);
-					silver.setPromoPrice(4750 * randomNum);
-					silver.setTransferPrice(2500);
-					silver.setPartner("GMV_PROC_A_300", "Physio Therapist");
-					silver.addAddons("GMV_PROC_A_300", 4);
-					silver.setCancellationPenalty(5);
-					silver.setDescription("od1 - silver - slight upgrade - single office and 1 extra provider");
-					silver.setProviderDetails(uid, name, loc, ranking);
-					offeringColl.insertOne(silver.toDocument());
-
-					if (randomNum > 0.5) {
-						gold.setFinancingAvailable(true);
-					}
-					gold.setBasePrice(7000 * randomNum);
-					gold.setPromoPrice(5500 * randomNum);
-					gold.setTransferPrice(2500);
-					gold.addAddons("GMV_PROC_A_300", 8);
-					gold.setCancellationPenalty(0);
-					gold.setDescription("od1 - gold - single office, single provider, best value");
-					gold.setProviderDetails(uid, name, loc, ranking);
-					offeringColl.insertOne(gold.toDocument());
-*/					
-/*					ArrayList<Document> offerings = new ArrayList<Document>();
-					offerings.add(bronze.toDocument());
-					offerings.add(silver.toDocument());
-					offerings.add(gold.toDocument());
-					offeringColl.insertMany(offerings);
-					offerings.clear();
-*/				}
-		     }
-			}
-			br.close();
-        } catch (Exception e) {
-        	StringWriter sw = new StringWriter();
-        	PrintWriter pw = new PrintWriter(sw);
-        	e.printStackTrace(pw);
-        	coll.insertOne(new Document("Exception", e.getMessage()).append("Exception String", sw.toString()));
-        	client.close();
-        	e.printStackTrace();
-        	return;
-        }
-        coll.createIndex(new BasicDBObject ("loc", "2dsphere"));
-		String providerLoc = "Bundle Info." + FieldDefinitions.PROVIDER_LOC;
-/*        offeringColl.createIndex(new BasicDBObject (providerLoc, "2dsphere"));
-*/        client.close();
-	}
-
 	private static Document constructQuery (int zip, 
 			 long maxDistance, 
 			 String bundle, 
@@ -476,75 +301,13 @@ return queryDoc;
 	}
 	public static void main (String[] args) {
 		initDBVars ();
-/*		addUserDefinitions ();
-		addVetUsers();
-*/		BundleDoc.initDBVariables("gmv_no_sql", "sellable_bundles");
-		for (int i = 1; i <= 10; i=i+1) {
-			String pracID = "GMV_PRACTICE_" + i;
-			String bundleID = pracID + "TPLO_Surgery_Bundle";
-			BundleDoc bd = BundleDoc.createBundle(bundleID + "_b", pracID, "GMV_PROC_B_102");
-			bd.setName("TPLO Bronze");
-			bd.addInclusion("GMV_PROC_A_300", false, true, "x + 70", -1, true);
-			bd.addEntryTime("Monday", true);
-			bd.addEntryTime("Tuesday", true);
-			bd.addEntryTime("Wednesday", true);
-			bd.addEntryTime("Thursday", true);
-			bd.addEntryTime("Friday", true);
-			bd.addEntryTime("Saturday", true);
-			bd.addCoreTime("Monday", true);
-			bd.addCoreTime("Wednesday", true);
-			bd.write();
-			
-			bd = BundleDoc.createBundle(bundleID + "_s", pracID, "GMV_PROC_B_102");
-			bd.setName("TPLO Silver");
-			bd.addInclusion("GMV_PROC_A_300", false, true, "x + 70", -1, true);
-			bd.addInclusion("GMV_PROC_A_300", false, true, "x + 70", -1, true);
-			bd.addEntryTime("Monday", true);
-			bd.addEntryTime("Tuesday", true);
-			bd.addEntryTime("Wednesday", true);
-			bd.addEntryTime("Thursday", true);
-			bd.addEntryTime("Friday", true);
-			bd.addEntryTime("Saturday", true);
-			bd.addCoreTime("Monday", true);
-			bd.addCoreTime("Wednesday", true);
-			bd.write();
-
-			bd = BundleDoc.createBundle(bundleID + "_g", pracID, "GMV_PROC_B_102");
-			bd.setName("TPLO Gold");
-			bd.addInclusion("GMV_PROC_A_300", false, true, "x + 70", -1, true);
-			bd.addInclusion("GMV_PROC_A_300", false, true, "x + 70", -1, true);
-			bd.addInclusion("GMV_PROC_A_300", false, true, "x + 70", -1, true);
-			bd.addInclusion("GMV_PROC_A_300", false, true, "x + 70", -1, true);
-			bd.addEntryTime("Monday", true);
-			bd.addEntryTime("Tuesday", true);
-			bd.addEntryTime("Wednesday", true);
-			bd.addEntryTime("Thursday", true);
-			bd.addEntryTime("Friday", true);
-			bd.addEntryTime("Saturday", true);
-			bd.addCoreTime("Monday", true);
-			bd.addCoreTime("Wednesday", true);
-			bd.addCoreTime("Friday", true);
-			bd.write();
-		}
-
-		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
-		MongoCollection<Document> coll = client.getDatabase(DatabaseDefinitions.NOSQL_DB).getCollection("sellable_bundles");
-		String providerLoc = "Bundle Info." + FieldDefinitions.RENDERING_LOC;
-        coll.createIndex(new BasicDBObject (providerLoc, "2dsphere"));
-        client.close();
-		
-		findBundle (99503, 10000, "dog");
-		//importPracticesToDB("C:/sriramr/gmv_feed/dummy_vet_location_data.csv", "gmv_no_sql", DatabaseDefinitions.PRAC_COLL);		
-/*		ProcedureDoc.createAndAddAtomicProcedures();
-		ProcedureDoc.createAndAddBundles();
-		OfferingDoc.createAndAddOfferings();
-*/		
-		//initBundles();
-/*		ImportDatabase idb = new ImportDatabase ();
+		ImportDatabase idb = new ImportDatabase();
 		idb.importDogBreedsToDB_newFormat("C:/Users/srira/breeds.json", DatabaseDefinitions.NOSQL_DB, DatabaseDefinitions.BREED_COLL);
-*/		
-		//createAndAddParts();
-//		createPractitioners();
+		idb.importPracticesToDB("C:/sriramr/gmv_feed/dummy_vet_location_data.csv", DatabaseDefinitions.NOSQL_DB, DatabaseDefinitions.PRAC_COLL);
+		ProcedureDoc.populateCollection();
+		PartDoc.populateCollection();
+		BundleDoc.populateCollection();
+		findBundle (20748, 10000, "dog", "tplo", 10000, 100000, 2);
 	}
 	
 	public static void main3 (String[] args) {
@@ -582,23 +345,114 @@ return queryDoc;
 		client.close();
 	}
 	
-	public static void findBundle (int zip, long dist, String animal) {
+	public static void createAndBundles () {
+		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
+		MongoCollection<Document> coll = client.getDatabase(DatabaseDefinitions.NOSQL_DB).getCollection(DatabaseDefinitions.PRAC_COLL);
+		FindIterable<Document> practices = coll.find();
+		Iterator<Document> practices_iter = practices.iterator();
+		int count = 0;
+		while (practices_iter.hasNext()) {
+			Document practice = practices_iter.next();
+			String practice_id = practice.getString(FieldDefinitions.UNIQUE_ID);
+			String bundleID = practice_id + "TPLO_Surgery_Bundle";
+
+			BundleDoc bd = BundleDoc.createBundle(bundleID + "_b", practice_id, "GMV_PROC_B_102");
+			bd.setName("TPLO Bronze");
+			bd.addInclusion("GMV_PROC_A_300", false, true, "x + 70", -1, true);
+			bd.addEntryTime("Monday", true);
+			bd.addEntryTime("Tuesday", true);
+			bd.addEntryTime("Wednesday", true);
+			bd.addEntryTime("Thursday", true);
+			bd.addEntryTime("Friday", true);
+			bd.addEntryTime("Saturday", true);
+			bd.addCoreTime("Monday", true);
+			bd.addCoreTime("Wednesday", true);
+			bd.write();
+
+			bd = BundleDoc.createBundle(bundleID + "_s", practice_id, "GMV_PROC_B_102");
+			bd.setName("TPLO Silver");
+			bd.addInclusion("GMV_PROC_A_300", false, true, "x + 70", -1, true);
+			bd.addInclusion("GMV_PROC_A_300", false, true, "x + 70", -1, true);
+			bd.addEntryTime("Monday", true);
+			bd.addEntryTime("Tuesday", true);
+			bd.addEntryTime("Wednesday", true);
+			bd.addEntryTime("Thursday", true);
+			bd.addEntryTime("Friday", true);
+			bd.addEntryTime("Saturday", true);
+			bd.addCoreTime("Monday", true);
+			bd.addCoreTime("Wednesday", true);
+			bd.write();
+
+			bd = BundleDoc.createBundle(bundleID + "_g", practice_id, "GMV_PROC_B_102");
+			bd.setName("TPLO Gold");
+			bd.addInclusion("GMV_PROC_A_300", false, true, "x + 70", -1, true);
+			bd.addInclusion("GMV_PROC_A_300", false, true, "x + 70", -1, true);
+			bd.addInclusion("GMV_PROC_A_300", false, true, "x + 70", -1, true);
+			bd.addInclusion("GMV_PROC_A_300", false, true, "x + 70", -1, true);
+			bd.addEntryTime("Monday", true);
+			bd.addEntryTime("Tuesday", true);
+			bd.addEntryTime("Wednesday", true);
+			bd.addEntryTime("Thursday", true);
+			bd.addEntryTime("Friday", true);
+			bd.addEntryTime("Saturday", true);
+			bd.addCoreTime("Monday", true);
+			bd.addCoreTime("Wednesday", true);
+			bd.addCoreTime("Friday", true);
+			bd.write();
+			
+			count++;
+			
+			if (count > 50)
+				break;
+		}
+		client.close();
+	}
+	
+	public static void findBundle (int zip, int dist, String animal, String bundle, double minprice, double maxprice, double rank) {
+		Date start = new Date();
 		ZipToCoord ztc = new ZipToCoord (zip);
 		ztc.getCoordsForZip ();
 		BasicDBList dblList = new BasicDBList ();
 		dblList.add(ztc.lon);
 		dblList.add(ztc.lat);
 		
-		Document toFind = new Document ("Rendering Location" , new Document ("$near" , new Document ("$geometry" , new Document ("type" , "Point").append("coordinates" , dblList)).append("$maxDistance" , dist)));
-		BasicDBList animalsTreated = new BasicDBList();
-		if (animal != null && !animal.isEmpty()) {
-			animalsTreated.add(animal);
+		Document toFind = new Document ();
+		toFind.append(FieldDefinitions.RENDERING_LOC, new Document ("$near" , new Document ("$geometry" , new Document ("type" , "Point").append("coordinates" , dblList)).append("$maxDistance" , dist)));
+
+		//default all query parameters
+		if (animal == null || animal.isEmpty()) {
+			animal = "dog";
 		}
+		toFind.append("Applies To.Type", animal); //new Document("$in", animal));
+
+		// bundle
+		if (bundle == null || bundle.isEmpty()) {
+			bundle = "TPLO";
+		}
+		toFind.append("Template Name", new BasicDBObject("$regex", bundle).append("$options", "i"));
+		
+		// ranking
+		toFind.append("Provider Rank.Composite Ranking", new Document("$gte", rank));
+
+		// price
+		toFind.append(FieldDefinitions.BASE_PRICE, new Document("$gte", minprice).append("$lte", maxprice));
+		
 		MongoClient client = new MongoClient();
-		MongoCollection<Document> coll = client.getDatabase("gmv_no_sql").getCollection("sellable_bundles");
-        coll.createIndex(new BasicDBObject ("Rendering Location", "2dsphere"));
-		long count = coll.count(toFind);
-		System.out.println("Count - " + count);
+		MongoCollection<Document> coll = client.getDatabase(DatabaseDefinitions.NOSQL_DB).getCollection(DatabaseDefinitions.BUNDLE_COLL);
+		FindIterable<Document> iterable = coll.find(toFind);
+		Iterator<Document> iter = iterable.iterator ();
+		ArrayList<Document> queryList = new ArrayList<Document>();
+		while (iter.hasNext()) {
+			Document doc = iter.next ();
+			queryList.add(doc);
+		}
+		Date end = new Date();
+		Document queryOut = new Document();
+		queryOut.append("Time Taken", end.getTime()-start.getTime());
+		queryOut.append("Count", queryList.size());
+		queryOut.append("Matches", queryList);
+		System.out.println(toFind.toJson());
+		System.out.println(queryList.size());
 		client.close();
 	}
 }

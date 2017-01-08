@@ -30,7 +30,7 @@ public class Part {
 			return Response.status(500).entity("Missing uid").build();
 		
 		PartDoc pd = new PartDoc (id);
-		pd.Write();
+		pd.write();
 		return Response.status(200).entity(id).build();
 	}
 

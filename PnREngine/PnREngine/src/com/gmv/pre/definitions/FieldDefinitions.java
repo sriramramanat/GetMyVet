@@ -11,6 +11,9 @@ public class FieldDefinitions {
 	public static final String BIOGRAPHY = "Bio";
 	public static final String EMAIL = "email";
 	public static final String PHONE = "Phone";
+	public static final String FAX = "Fax";
+	public static final String WEBSITE = "Website";
+	public static final String SOCIAL_MEDIA = "Social Media";
 	public static final String EDUCATION = "Education";
 	public static final String EXPERIENCE = "Experience";
 	
@@ -18,12 +21,16 @@ public class FieldDefinitions {
 	public static final String SCHOOL = "School";
 	public static final String GRAD_YEAR = "Year of Graduation";
 
+	public static final String HOURS_OF_OPERATION = "Hours of Operation";
+	public static final String OTHER_ADDRESSES = "Other Offices";
+	public static final String LOCATION = "Location";
 	public static final String BREED = "Breed";
 	public static final String CATEGORY = "Category";
 	public static final String TYPE = "Type";
 	public static final String WAIT_TIME_RANKING = "Wait Time Ranking";
 	public static final String BED_SIDE_MANNERS_RANKING = "Bed Side Manner Ranking";
 	public static final String RANKING = "Ranking";
+	public static final String PRIMARY_ADDRESS = "Primary Address";
 	public static final String LONGITUDE = "Longitude";
 	public static final String LATITUDE = "Latitude";
 	public static final String LIFE_EXPECTANCY = "Life Expectancy";
@@ -34,6 +41,7 @@ public class FieldDefinitions {
 	public static final String CORE_PROC = "Core";
 	public static final String APPLICABILITY = "Applies To";
 	public static final String INCLUDED_PROC = "Included";
+	public static final String STEP_NUMBER = "Step Number";
 	public static final String OWNER_ID = "Owner";
 	public static final String BREED_ID = "Breed";
 	public static final String DATE_ADOPTED = "DoB | DoA";
@@ -77,11 +85,9 @@ public class FieldDefinitions {
 	public static final String TIME_OF_COMMENCEMENT = "Time of Commencement";
 	public static final String POPULARITY_RANK = "Popularity Rank";
 	public static final String COMPOSITE_RANKING = "Composite Ranking";
-	public static final String PROVIDER_ADDRESS = "Provider Street Address";
-	public static final String PROVIDER_CITY = "Provider City";
-	public static final String PROVIDER_STATE = "Provider State";
-	public static final String PROVIDER_ZIP = "Provider Zip";
-	public static final String RENDERING_ADDRESS = "Rendering Street Address";
+	public static final String PROVIDER_ADDRESS = "Provider Address";
+	public static final String RENDERED_BY = "Rendered By";
+	public static final String RENDERING_ADDRESS = "Rendering Address";
 	public static final String RENDERING_CITY = "Rendering City";
 	public static final String RENDERING_STATE = "Rendering State";
 	public static final String RENDERING_ZIP = "Rendering Zip";
@@ -93,4 +99,12 @@ public class FieldDefinitions {
 	public static final String CORE_TIME = "Core Time";
 	public static final String ANIMALS_TREATED = "Animals Treated";
 	public static final String TEMPLATE_NAME = "Template Name";
+	public static final String PRACTITIONERS = "Practitioners";
+	public static final String PRIMARY_SPECIALTY = "Primary Specialty";
+	public static final String SECONDARY_SPECIALTY = "Secondary Specialty";
+	public static final String STREET1 = "Street";
+	public static final String STREET2 = "Street 2";
+	public static final String CITY = "City";
+	public static final String STATE = "State";
+	public static final String ZIP = "Zip";
 }

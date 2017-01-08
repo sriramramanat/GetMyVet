@@ -7,8 +7,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.StringTokenizer;
+import java.util.concurrent.TimeUnit;
 
 import org.bson.BsonArray;
 import org.bson.BsonDouble;
@@ -16,6 +18,7 @@ import org.bson.Document;
 
 import com.gmv.pre.definitions.DatabaseDefinitions;
 import com.gmv.pre.definitions.FieldDefinitions;
+import com.gmv.pre.structs.PracticeDoc;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -141,46 +144,94 @@ public class ImportDatabase {
 	 * c)
 	 */
 	public void importPracticesToDB (String csvFileName, String dbName, String collName) {
-		// Open up Mongo Connection
 		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
-		MongoDatabase db = client.getDatabase (dbName);
-		MongoCollection<Document> coll = db.getCollection (collName);
-		
 		int id = 1;
 		// Open up the CSV file and read every record
         String splitBy = ",";
+        String name = "", street = "", city = "", state = "", zip = "", phone = "", longitude = "", latitude = "";
         try {
 			BufferedReader br = new BufferedReader(new FileReader(csvFileName));
 			String line = br.readLine();
 			while(line!=null){
 			     String[] b = line.split(splitBy);
-			     if (b.length < 3) {
-			    	 // missing either name, latitude or longitude. go to the next line
+			     if (b.length < 8) {
+			    	 // missing one of the fields - just move on
 			    	 line = br.readLine(); 
-		    	 } else if (b[1].contains(FieldDefinitions.LONGITUDE) ||
-		    			 	b[2].contains(FieldDefinitions.LATITUDE)) {
+		    	 } else if (b[4].contains(FieldDefinitions.LONGITUDE) ||
+		    			 	b[5].contains(FieldDefinitions.LATITUDE)) {
 		    		 // Header line. Ignore this and go to the next line
 		    		 line = br.readLine();
 		    	 }
 			     else {
-				     Document d = new Document (FieldDefinitions.NAME, b[0]);
-				     BsonDouble latitude = new BsonDouble(Double.parseDouble(b[2]));
-				     BsonDouble longitude = new BsonDouble (Double.parseDouble(b[1]));
-				     Document loc = new Document ("type", "Point");
-				     loc.append("coordinates", new BsonArray(Arrays.asList(longitude, latitude)));
-				     d.append ("loc", loc);
-				     d.append (FieldDefinitions.UNIQUE_ID, FieldDefinitions.PRACTICE_PREFIX + id++);
-				     d.append (FieldDefinitions.RANKING, Math.random() * 5);
-				     coll.insertOne(d);
+			    	 name = b[0];
+			    	 city = b[1];
+			    	 state = b[2];
+			    	 zip = b[3];
+			    	 longitude = b[4];
+			    	 latitude = b[5];
+			    	 street = b[6];
+			    	 phone = b[7];
+				     if (state.contains("NY") || state.contains("NJ") || state.contains("MD") || state.contains("DC")) {
+				    	 String uid = FieldDefinitions.PRACTICE_PREFIX + id++;
+				    	 PracticeDoc pd = new PracticeDoc ();
+					     pd.setID(uid);
+				    	 pd.setName(name);
+				    	 pd.setPhone(phone);
+				    	 Document address = new Document ("Street", street);
+					     address.append("City", city);
+					     address.append("State", state);
+					     address.append("Zip", zip);
+				    	 pd.setPrimaryAddress(address);
+				    	 pd.addAddress("Office 2", address);
+				    	 pd.addAddress("Office 3", address);
+				    	 pd.addAddress("Admin Office", address);
+				    	 pd.addAddress("Billing & Claims Office", address);
+				    	 pd.setPhone(phone);
+				    	 
+					     BsonDouble longitude_d = new BsonDouble (Double.parseDouble(longitude));
+					     BsonDouble latitude_d = new BsonDouble(Double.parseDouble(latitude));
+					     Document loc = new Document ("type", "Point");
+					     loc.append("coordinates", new BsonArray(Arrays.asList(longitude_d, latitude_d)));
+					     pd.setLocation(loc);
+					     double wTimeRank = Math.random() * 5;
+					     double bRank = Math.random() * 5;
+					     double cRank = 0.5 * wTimeRank + 0.5 * bRank;
+					     ArrayList<String> animals = new ArrayList<String>();
+					     if (wTimeRank > bRank) {
+					    	 pd.addAnimalsTreated("dog");
+					    	 pd.addAnimalsTreated("cat");
+					     } else {
+					    	 pd.addAnimalsTreated("cat");
+					     }
+					     pd.setWaitTimeRank(wTimeRank);
+					     pd.setBedSideRnak(bRank);
+					     pd.setCompositeRank(cRank);
+					     pd.write();
+					     TimeUnit.MILLISECONDS.sleep(10);
+				     }
 				     line=br.readLine();
-				}
+			     }
 			}
 			br.close();
         } catch (Exception e) {
-        	client.close();
         	e.printStackTrace();
+        	return;
         }
-        coll.createIndex(new BasicDBObject ("loc", "2dsphere"));
+		MongoDatabase db = client.getDatabase (DatabaseDefinitions.NOSQL_DB);
+		MongoCollection<Document> coll = db.getCollection (DatabaseDefinitions.PRAC_COLL);
+		if (db == null || coll == null) {
+			client.close();
+			return;
+		}
+        coll.createIndex(new BasicDBObject ("Location", "2dsphere"));
+        
+/*        coll = db.getCollection (DatabaseDefinitions.BUNDLE_COLL);
+		if (db == null || coll == null) {
+			client.close();
+			return;
+		}
+        coll.createIndex(new BasicDBObject ("Rendering Location", "2dsphere"));
+*/        
         client.close();
 	}
 
@@ -273,6 +324,7 @@ public class ImportDatabase {
 				    String uid = FieldDefinitions.CANINE_PREFIX + id++;
 				    breed.append(FieldDefinitions.UNIQUE_ID, uid);
 				    breed.append(FieldDefinitions.TYPE, FieldDefinitions.CANINE);
+				    breed.append(FieldDefinitions.ALT_CODE, new ArrayList<String>());
 				    coll.insertOne(breed);
 					
 				} else {
