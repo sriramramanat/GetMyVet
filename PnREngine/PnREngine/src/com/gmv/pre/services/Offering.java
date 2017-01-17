@@ -56,7 +56,7 @@ public class Offering {
 
 		// get coordinates for zip
 		ZipToCoord ztc = new ZipToCoord (zip);
-		ztc.getCoordsForZip ();
+//		ztc.getCoordsForZip ();
 
 		// construct the query
 		BasicDBList dblList = new BasicDBList ();

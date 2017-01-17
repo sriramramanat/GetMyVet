@@ -55,6 +55,7 @@ public class FieldDefinitions {
 	public static final String CANINE = "Canine";
 	public static final String FELINE = "Feline";
 	public static final String CONGENITAL_ISSUES = "Congenital Issues";
+	public static final String PROCEDURE = "Procedure";
 	public static final String POSSIBLE_ADDITIONS = "Possible Additions";
 	public static final String VARIANT_LEVEL = "Variant Level";
 	public static final String INCLUDED_PARTS = "Included Parts";
@@ -107,4 +108,16 @@ public class FieldDefinitions {
 	public static final String CITY = "City";
 	public static final String STATE = "State";
 	public static final String ZIP = "Zip";
+	
+	public static final String TIME_OF_DAY = "Time of Day";
+	public static final String MORNING = "Morning";
+	public static final String AFTERNOON = "Afternoon";
+	public static final String EVENING = "Evening";
+	public static final String PROCEDURE_STATUS = "Procedure Status";
+	public static final String IS_CORE = "Is Core";
+	public static final String VET_NOTES = "Vet Notes";
+	public static final String PET_NOTES = "Pet Owner Notes";
+	public static final String CAN_EXIT = "Can Exit";
+	public static final String ENTRY_PRICE = "Entry Price";
+	public static final String EXIT_PENALTY = "Exit Penalty";
 }

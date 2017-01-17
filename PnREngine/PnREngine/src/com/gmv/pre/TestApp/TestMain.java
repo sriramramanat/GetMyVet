@@ -36,6 +36,7 @@ import com.gmv.pre.helpers.ImportDatabase;
 import com.gmv.pre.helpers.ZipToCoord;
 import com.gmv.pre.structs.BreedDoc;
 import com.gmv.pre.structs.BundleDoc;
+import com.gmv.pre.structs.BundleInstanceDoc;
 import com.gmv.pre.structs.OfferingDoc;
 import com.gmv.pre.structs.PartDoc;
 import com.gmv.pre.structs.PetDoc;
@@ -221,7 +222,6 @@ public class TestMain {
 			 int end) {
 // get coordinates for zip
 ZipToCoord ztc = new ZipToCoord (zip);
-ztc.getCoordsForZip ();
 
 // construct the query
 BasicDBList dblList = new BasicDBList ();
@@ -299,15 +299,28 @@ return queryDoc;
 		vet.addField("Experience", experience);
 		vet.write();
 	}
+
+	public enum TM {t1, t2};
 	public static void main (String[] args) {
 		initDBVars ();
-		ImportDatabase idb = new ImportDatabase();
-		idb.importDogBreedsToDB_newFormat("C:/Users/srira/breeds.json", DatabaseDefinitions.NOSQL_DB, DatabaseDefinitions.BREED_COLL);
-		idb.importPracticesToDB("C:/sriramr/gmv_feed/dummy_vet_location_data.csv", DatabaseDefinitions.NOSQL_DB, DatabaseDefinitions.PRAC_COLL);
-		ProcedureDoc.populateCollection();
-		PartDoc.populateCollection();
-		BundleDoc.populateCollection();
-		findBundle (20748, 10000, "dog", "tplo", 10000, 100000, 2);
+//		ImportDatabase idb = new ImportDatabase();
+//		idb.importDogBreedsToDB_newFormat("C:/Users/srira/breeds.json", DatabaseDefinitions.NOSQL_DB, DatabaseDefinitions.BREED_COLL);
+//		idb.importPracticesToDB("C:/sriramr/gmv_feed/dummy_vet_location_data.csv", DatabaseDefinitions.NOSQL_DB, DatabaseDefinitions.PRAC_COLL);
+//		ProcedureDoc.populateCollection();
+//		PartDoc.populateCollection();
+//		BundleDoc.populateCollection();
+//		findBundle (20748, 10000, "dog", "tplo", 10000, 100000, 2);
+//		BundleInstanceDoc bid = new BundleInstanceDoc ();
+//		bid.setId("Bundle Instance ID");
+//		bid.setBundleId("GMV_PRACTICE_7TPLO_Surgery_Bundle_b");
+//		bid.setSellerId("GMV_PRACTICE_7");
+//		bid.setBuyerId("Sriram");
+//		bid.setSalePrice(3500);
+//		System.out.println(bid.toDocument().toJson());
+//		
+		ZipToCoord zc = new ZipToCoord ("Washington", "DC");
+		System.out.println (zc.lat);
+		System.out.println (zc.lon);
 	}
 	
 	public static void main3 (String[] args) {
@@ -326,7 +339,6 @@ return queryDoc;
 	
 	public static void findProvider (int zip, long dist, String animal, double rank) {
 		ZipToCoord ztc = new ZipToCoord (zip);
-		ztc.getCoordsForZip ();
 		BasicDBList dblList = new BasicDBList ();
 		dblList.add(ztc.lon);
 		dblList.add(ztc.lat);
@@ -411,7 +423,6 @@ return queryDoc;
 	public static void findBundle (int zip, int dist, String animal, String bundle, double minprice, double maxprice, double rank) {
 		Date start = new Date();
 		ZipToCoord ztc = new ZipToCoord (zip);
-		ztc.getCoordsForZip ();
 		BasicDBList dblList = new BasicDBList ();
 		dblList.add(ztc.lon);
 		dblList.add(ztc.lat);

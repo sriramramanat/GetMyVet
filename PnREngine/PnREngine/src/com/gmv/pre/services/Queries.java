@@ -45,7 +45,6 @@ public class Queries {
 	
 	private Document createGeoNear (int zip, long maxDistance) {
 		ZipToCoord ztc = new ZipToCoord (zip);
-		ztc.getCoordsForZip ();
 
 		// construct geoNear
 		BasicDBList dblList = new BasicDBList ();
@@ -65,7 +64,6 @@ public class Queries {
 	private Document create2dQuery (int zip, long distance) {
 		BasicDBList dblList = new BasicDBList ();
 		ZipToCoord ztc = new ZipToCoord (zip);
-		ztc.getCoordsForZip ();
 		dblList.add(ztc.lon);
 		dblList.add(ztc.lat);
 		
@@ -353,7 +351,6 @@ public class Queries {
 
 		//Convert zip to coordinates
 		ZipToCoord ztc = new ZipToCoord (zip);
-		ztc.getCoordsForZip ();
 		BasicDBList dblList = new BasicDBList ();
 		dblList.add(ztc.lon);
 		dblList.add(ztc.lat);
@@ -389,6 +386,8 @@ public class Queries {
 	@Produces ({MediaType.APPLICATION_JSON})
 	@Path ("/findBundles")
 	public Response findBundles (@QueryParam ("zip") int zip,
+									@QueryParam ("city") String city,
+									@QueryParam ("state") String state,
 									@QueryParam("dist") long dist,
 									@QueryParam("for") String animal,
 									@QueryParam("bundle") String bundle,
@@ -434,12 +433,18 @@ public class Queries {
 		 * )*/
 		Date start = new Date();
 
-		//Convert zip to coordinates
-		ZipToCoord ztc = new ZipToCoord (zip);
-		ztc.getCoordsForZip ();
+		//Convert zip or city/state to coordinates
+		ZipToCoord ztc = null;
 		BasicDBList dblList = new BasicDBList ();
-		dblList.add(ztc.lon);
-		dblList.add(ztc.lat);
+		if (zip != 0) {
+			ztc = new ZipToCoord (zip);
+			dblList.add(ztc.lon);
+			dblList.add(ztc.lat);
+		} else if (city != null && !city.isEmpty()) {
+			ztc = new ZipToCoord (city, state);
+			dblList.add(ztc.lon);
+			dblList.add(ztc.lat);
+		}
 		
 		Document toFind = new Document (FieldDefinitions.RENDERING_LOC, new Document ("$near" , new Document ("$geometry" , new Document ("type" , "Point").append("coordinates" , dblList)).append("$maxDistance" , dist)));
 
@@ -562,6 +567,10 @@ public class Queries {
 		if (useday) {
 			toFind.append("Available Timeslots.Time", new BasicDBObject ("$gte", startDay).append("$lte", endDay));
 			toFind.append("Available Timeslots.Available", true);
+		}
+		
+		if (time != null && !time.isEmpty()) {
+			toFind.append("Available Timeslots.Time of Day", new BasicDBObject("$regex", time).append("$options", "i"));
 		}
 
 		MongoClient client = new MongoClient();

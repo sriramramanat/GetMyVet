@@ -45,6 +45,17 @@ public class BundleDoc {
 	int __variantLevel;
 	private ArrayList<Document> __appointments;
 	
+	public static BundleDoc readBundle (String bundleID) {
+		BundleDoc bd = new BundleDoc ();
+		bd.read(bundleID);
+		return bd;
+	}
+	
+	public static BundleDoc createBundle () {
+		BundleDoc bd = new BundleDoc ();
+		return bd;
+	}
+	
 	public static BundleDoc createBundle (String bundleID, String provider, String procedure) {
 		BundleDoc bd = new BundleDoc ();
 		bd.__id = bundleID;
@@ -380,6 +391,7 @@ public class BundleDoc {
 	public void setProviderRank (Document rank) {
 		__providerRank = rank;
 	}
+
 	public String getRenderingStreetAddress () {
 		return __renderingAddress.getString(FieldDefinitions.STREET1);
 	}
@@ -590,6 +602,25 @@ public class BundleDoc {
 		renumberSteps();
 	}
 	
+	public ArrayList<Document> getAllInclusions () {
+		return __included;
+	}
+	
+	public int getIncludedCount() {
+		return __included.size();
+	}
+	
+	public int getCoreCount () {
+		int nCores = 0;
+		for (int i = 0 ; i < __included.size(); i++) {
+			Document doc = __included.get(i);
+			if (doc.getBoolean ("Is Core")) {
+				nCores++;
+			}
+		}
+		return nCores;
+	}
+	
 	public void setRenderer (int stepNumber, String providerID, String addressID) {
 		// find the step
 		Document procedure = null;
@@ -701,6 +732,16 @@ public class BundleDoc {
 	
 	public void addAppointmentSlot (Date date, boolean available, double promoPrice) {
 		Document doc = new Document ("Time", date);
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		int hour = cal.get(Calendar.HOUR_OF_DAY);
+		if (hour < 12) {
+			doc.append(FieldDefinitions.TIME_OF_DAY, FieldDefinitions.MORNING);
+		} else if (hour > 12 && hour < 15) {
+			doc.append(FieldDefinitions.TIME_OF_DAY, FieldDefinitions.AFTERNOON);
+		} else {
+			doc.append(FieldDefinitions.TIME_OF_DAY, FieldDefinitions.EVENING);
+		}
 		doc.append("Available", available);
 		doc.append("Price", promoPrice);
 		__appointments.add(doc);
@@ -728,8 +769,13 @@ public class BundleDoc {
 		}
 	}
 	
+	public BundleInstanceDoc buy (String buyerID) {
+		BundleInstanceDoc bid = new BundleInstanceDoc ();
+		return bid;
+	}
+	
 	public static void populateCollection () {
-		for (int i = 1; i <= 5000; i = i + 1) {
+		for (int i = 1; i <= 6000; i = i + 1) {
 			String pracID = "GMV_PRACTICE_" + i;
 			String officeID = "GMV_PRACTICE_" + i + "_office_1";
 			int prev = i - 1;
@@ -761,8 +807,10 @@ public class BundleDoc {
 			bd.addCoreTime("Monday", true);
 			bd.addCoreTime("Wednesday", true);
 			bd.setPromoAvailable(false);
+			bd.setCancellationPercent(0.2);
+			bd.setFinancingAvailable(false);
 			Calendar cal = Calendar.getInstance();
-			cal.set(2017, 1, 8, 9, 0);
+			cal.set(2017, 0, 12, 9, 0);
 			Date date = cal.getTime();
 			bd.addAppointmentSlot(date, true, basePrice);
 
@@ -811,6 +859,8 @@ public class BundleDoc {
 			bd.addCoreTime("Monday", true);
 			bd.addCoreTime("Wednesday", true);
 			bd.setPromoAvailable(true);
+			bd.setCancellationPercent(0.1);
+			bd.setFinancingAvailable(true);
 			bd.addAppointmentSlot(date, true, basePrice);
 
 			cal.add(Calendar.HOUR_OF_DAY, 1);
@@ -861,6 +911,8 @@ public class BundleDoc {
 			bd.addCoreTime("Wednesday", true);
 			bd.addCoreTime("Friday", true);
 			bd.setPromoAvailable(true);
+			bd.setCancellationPercent(0.05);
+			bd.setFinancingAvailable(true);
 			bd.addAppointmentSlot(date, true, basePrice);
 
 			cal.add(Calendar.HOUR_OF_DAY, 1);
@@ -894,8 +946,7 @@ public class BundleDoc {
 
 		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
 		MongoCollection<Document> coll = client.getDatabase(DatabaseDefinitions.NOSQL_DB).getCollection(DatabaseDefinitions.BUNDLE_COLL);
-		String providerLoc = "Bundle Info." + FieldDefinitions.RENDERING_LOC;
-        coll.createIndex(new BasicDBObject (providerLoc, "2dsphere"));
+        coll.createIndex(new BasicDBObject (FieldDefinitions.RENDERING_LOC, "2dsphere"));
         client.close();
 		
 	}
