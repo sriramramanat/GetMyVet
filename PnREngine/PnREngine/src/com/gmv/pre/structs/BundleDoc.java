@@ -35,7 +35,9 @@ public class BundleDoc {
 	int __numProviders;
 	int __numOffices;
 	private ArrayList<Document> __included;
-	private double __basePrice;
+	private double __listPrice;
+	private double __listDiscount;
+	private double __basePrice; /* AKA GMV Price */
 	private double __transferPrice;
 	private double __cancellationPercent;
 	private boolean __promoAvailable;
@@ -44,10 +46,17 @@ public class BundleDoc {
 	private ArrayList<Document> __includedParts;
 	int __variantLevel;
 	private ArrayList<Document> __appointments;
+	private int __numSold;
 	
 	public static BundleDoc readBundle (String bundleID) {
 		BundleDoc bd = new BundleDoc ();
 		bd.read(bundleID);
+		return bd;
+	}
+	
+	public static BundleDoc readTempBundle (String bundleID) {
+		BundleDoc bd = new BundleDoc ();
+		bd.readFromTemp(bundleID);
 		return bd;
 	}
 	
@@ -58,6 +67,9 @@ public class BundleDoc {
 	
 	public static BundleDoc createBundle (String bundleID, String provider, String procedure) {
 		BundleDoc bd = new BundleDoc ();
+		if (bundleID == null || bundleID.isEmpty()) {
+			bundleID = provider + "_" + procedure;
+		}
 		bd.__id = bundleID;
 		// Fill provider details
 		bd.fillProviderDetails (provider);
@@ -74,11 +86,13 @@ public class BundleDoc {
 		bd.__numProviders = 1;
 		bd.__numOffices = 1;
 		bd.__promoAvailable = false;
-		bd.__basePrice = 100.0;
+		bd.__listPrice = 100.0;
+		bd.__listDiscount = 0.1;
+		bd.__basePrice = bd.__listDiscount * bd.__listPrice;
 		bd.__cancellationPercent = 0.1;
 		bd.__transferPrice = 75.0;
 		bd.__financingAvailable = false;
-		bd.__variantLevel = 1;
+		bd.__variantLevel = bd.__templateDoc.getVariantLevel();
 		bd.addEntryTime ("Monday", false);
 		bd.addEntryTime ("Tuesday", false);
 		bd.addEntryTime ("Wednesday", false);
@@ -106,6 +120,7 @@ public class BundleDoc {
 		__entryTime = new ArrayList<Document>();;
 		__coreTime = new ArrayList<Document>();;
 		__includedParts = new ArrayList<Document>();
+		__numSold = 0;
 	}
 	
 	public void fillProviderDetails (String providerID) {
@@ -143,6 +158,7 @@ public class BundleDoc {
 	public void fillProcedureDetails (String procedureID) {
 		__template = procedureID;
 		__templateDoc = new ProcedureDoc (procedureID);
+		__name = __templateDoc.getName();
 		flattenTemplate ();
 	}
 	
@@ -152,9 +168,14 @@ public class BundleDoc {
 		for (int i = 0; i < includedProcs.size(); i++) {
 			Document incl = includedProcs.get(i);
 			incl.append("Is Core", true);
-			incl.append("Can Exit", false);
-			incl.append("Exit Penalty", 0.0);
 			incl.append("Entry Price", 0.0);
+			incl.append("Exit Refund", 0.0);
+			incl.append("Payout", 0.0);
+			incl.append("Exit Payout", 0.0);
+			incl.append(FieldDefinitions.LIST_PRICE, 0.0);
+			incl.append(FieldDefinitions.LIST_DISCOUNT, 0.0);
+			incl.append(FieldDefinitions.UTILIZATION, 1);
+			incl.append("GMV Price", 0.0);
 			incl.append(FieldDefinitions.RENDERED_BY, __providerID);
 			incl.append(FieldDefinitions.RENDERING_ADDRESS, __renderingAddress);
 			__included.add(incl);
@@ -174,8 +195,11 @@ public class BundleDoc {
 		doc.append(FieldDefinitions.NAME, __name);
 		doc.append(FieldDefinitions.DESCRIPTION, __description);
 		doc.append(FieldDefinitions.TEMPLATE, __template);
+		doc.append(FieldDefinitions.TEMPLATE_FULL, __templateDoc.toDocument());
 		doc.append(FieldDefinitions.TEMPLATE_NAME, __templateDoc.getName());
 		doc.append(FieldDefinitions.APPLICABILITY, __templateDoc.getApplicability());
+		doc.append(FieldDefinitions.CORE_PROC, __templateDoc.getCore());
+		doc.append(FieldDefinitions.REASON, __templateDoc.getReason());
 		doc.append(FieldDefinitions.PROVIDER_ID, __providerID);
 		doc.append(FieldDefinitions.PROVIDER_NAME, __providerName);
 		doc.append(FieldDefinitions.PROVIDER_ADDRESS, __providerAddress);
@@ -187,6 +211,8 @@ public class BundleDoc {
 		doc.append(FieldDefinitions.FINANCING_AVAILABLE, __financingAvailable);
 		doc.append(FieldDefinitions.NUM_PROVIDERS, __numProviders);
 		doc.append(FieldDefinitions.NUM_OFFICES, __numOffices);
+		doc.append(FieldDefinitions.LIST_PRICE, __listPrice);
+		doc.append(FieldDefinitions.LIST_DISCOUNT, __listDiscount);
 		doc.append(FieldDefinitions.BASE_PRICE, __basePrice);
 		doc.append(FieldDefinitions.CANCEL_PENALTY, __cancellationPercent);
 		doc.append(FieldDefinitions.TRANSFER_PRICE, __transferPrice);
@@ -197,6 +223,7 @@ public class BundleDoc {
 		doc.append(FieldDefinitions.INCLUDED_PROC, __included);
 		doc.append(FieldDefinitions.INCLUDED_PARTS, __includedParts);
 		doc.append(FieldDefinitions.AVAILABLE_TIMES, __appointments);
+		doc.append(FieldDefinitions.NUMBER_SOLD, __numSold);
 		return doc;
 	}
 	
@@ -218,6 +245,8 @@ public class BundleDoc {
 		__financingAvailable = doc.getBoolean(FieldDefinitions.FINANCING_AVAILABLE);
 		__numProviders = doc.getInteger(FieldDefinitions.NUM_PROVIDERS);
 		__numOffices = doc.getInteger(FieldDefinitions.NUM_OFFICES);
+		__listPrice = doc.getDouble(FieldDefinitions.LIST_PRICE);
+		__listDiscount = doc.getDouble(FieldDefinitions.LIST_DISCOUNT);
 		__basePrice = doc.getDouble(FieldDefinitions.BASE_PRICE);
 		__cancellationPercent = doc.getDouble(FieldDefinitions.CANCEL_PENALTY);
 		__transferPrice = doc.getDouble(FieldDefinitions.TRANSFER_PRICE);
@@ -228,6 +257,7 @@ public class BundleDoc {
 		__included = (ArrayList<Document>)(doc.get(FieldDefinitions.INCLUDED_PROC));
 		__includedParts = (ArrayList<Document>)(doc.get(FieldDefinitions.INCLUDED_PARTS));
 		__appointments = (ArrayList<Document>)(doc.get(FieldDefinitions.AVAILABLE_TIMES));
+		__numSold = doc.getInteger(FieldDefinitions.NUMBER_SOLD, 0);
 	
 	}
 	
@@ -254,6 +284,25 @@ public class BundleDoc {
 		}
 	}
 	
+	public void readFromTemp (String id) {
+		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
+		if (client != null) {
+			MongoDatabase db = client.getDatabase(DatabaseDefinitions.NOSQL_DB);
+			if (db != null) {
+				MongoCollection<Document> coll = db.getCollection(DatabaseDefinitions.BUNDLE_TEMP_COLL);
+				if (coll != null) {
+					FindIterable<Document> docs = coll.find(new Document(FieldDefinitions.UNIQUE_ID, id));
+					Iterator<Document> iter = docs.iterator ();
+					if (iter.hasNext()) {
+						Document doc = iter.next();
+						fromDocument (doc);
+					}
+				}
+			}
+			client.close();
+		}
+	}
+
 	public void write () {
 		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
 		if (client != null) {
@@ -271,6 +320,64 @@ public class BundleDoc {
 				}
 			}
 			client.close();
+		}
+	}
+	
+	public void writeToTemp () {
+		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
+		if (client != null) {
+			MongoDatabase db = client.getDatabase(DatabaseDefinitions.NOSQL_DB);
+			if (db != null) {
+				MongoCollection<Document> coll = db.getCollection(DatabaseDefinitions.BUNDLE_TEMP_COLL);
+				if (coll != null) {
+					Document doc = toDocument ();
+					Document match = new Document (FieldDefinitions.UNIQUE_ID, __id);
+					if (coll.count(match) > 0) {
+						coll.findOneAndReplace(match, doc);
+					} else {
+						coll.insertOne(doc);
+					}
+				}
+			}
+			client.close();
+		}
+	}
+	
+	public void update (Document updateDoc) {
+		String str = updateDoc.getString("TotalPrice");
+		double price = Double.parseDouble(str);
+		setBasePrice(price);
+		
+		str = updateDoc.getString("Discount");
+		double discount = Double.parseDouble(str);
+		setListDiscount(discount);
+		
+		ArrayList<String> renderedBy = (ArrayList<String>)(updateDoc.get("RenderedBy"));
+		ArrayList<String> renderedAt = (ArrayList<String>)(updateDoc.get("RenderedAt"));
+		ArrayList<String> listPrice = (ArrayList<String>)(updateDoc.get("ListPrice"));
+		ArrayList<String> gmvPrice = (ArrayList<String>)(updateDoc.get("GMVPrice"));
+		ArrayList<String> utilization = (ArrayList<String>)(updateDoc.get("Utilization"));
+		
+		int count = renderedBy.size();
+		for (int i = 0; i < count; i++) {
+			String partner = renderedBy.get(i);
+			String office = renderedAt.get(i);
+			if (partner.equals("self")) {
+				if (!office.equals("default")) {
+					setOffice(i+1, office);
+				}
+			} else {
+				setRenderer (i+1, partner, office);
+			}
+			
+			Document incl = __included.get(i);
+			str = listPrice.get(i);
+			incl.put(FieldDefinitions.LIST_PRICE, Double.parseDouble(str));
+			incl.put(FieldDefinitions.LIST_DISCOUNT, discount);
+			str = utilization.get(i);
+			incl.put(FieldDefinitions.UTILIZATION, Double.parseDouble(str)/100);
+			str = gmvPrice.get(i);
+			incl.put(FieldDefinitions.GMV_PRICE, Double.parseDouble(str));
 		}
 	}
 	
@@ -304,6 +411,14 @@ public class BundleDoc {
 
 	public String getTemplateID () {
 		return __template;
+	}
+	
+	public int getNumberSold () {
+		return __numSold;
+	}
+	
+	public void setNumberSold (int numSold) {
+		__numSold = numSold;
 	}
 
 	public void setTemplateID (String templateID) {
@@ -447,6 +562,22 @@ public class BundleDoc {
 		__basePrice = price;
 	}
 
+	public double getListPrice () {
+		return __listPrice;
+	}
+
+	public void setListPrice (double price) {
+		__listPrice = price;
+	}
+
+	public double getListDiscount () {
+		return __listDiscount;
+	}
+
+	public void setListDiscount (double discount) {
+		__listDiscount = discount;
+	}
+
 	public double getTransferPrice () {
 		return __transferPrice;
 	}
@@ -549,13 +680,17 @@ public class BundleDoc {
 		toInsert.append("Can Exit", canExit);
 		toInsert.append("Is Core", false);
 		toInsert.append("Entry Price", 0.0);
+		toInsert.append(FieldDefinitions.LIST_PRICE, 0.0);
+		toInsert.append(FieldDefinitions.LIST_DISCOUNT, 0.0);
+		toInsert.append(FieldDefinitions.UTILIZATION, 1);
+		toInsert.append(FieldDefinitions.GMV_PRICE, 0.0);
 		toInsert.append(FieldDefinitions.RENDERED_BY, __providerID);
 		toInsert.append(FieldDefinitions.RENDERING_ADDRESS, __renderingAddress);
 
-		if (canExit) {
-			toInsert.append("Exit Penalty", 0);
+		if (!canExit) {
+			toInsert.append("Exit Refund", 0);
 		} else {
-			toInsert.append("Exit Penalty", 100);
+			toInsert.append("Exit Refund", 100);
 		}
 		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
 		MongoDatabase db = client.getDatabase(DatabaseDefinitions.NOSQL_DB);
@@ -743,7 +878,11 @@ public class BundleDoc {
 			doc.append(FieldDefinitions.TIME_OF_DAY, FieldDefinitions.EVENING);
 		}
 		doc.append("Available", available);
-		doc.append("Price", promoPrice);
+		if (promoPrice > 0) {
+			doc.append("Price", promoPrice);
+		} else {
+			doc.append("Price", __basePrice);
+		}
 		__appointments.add(doc);
 	}
 	
@@ -774,15 +913,131 @@ public class BundleDoc {
 		return bid;
 	}
 	
+	public static void populateCollection2 () {
+		String[] templateIDs = {"GMV_PROC_AC_101",
+				"GMV_PROC_AC_102",
+				"GMV_PROC_AC_103",
+				"GMV_PROC_AC_104",
+				"GMV_PROC_AL_201",
+				"GMV_PROC_AL_202",
+				"GMV_PROC_AL_203",
+				"GMV_PROC_AI_301",
+				"GMV_PROC_AI_302",
+				"GMV_PROC_AI_303",
+				"GMV_PROC_AI_304",
+				"GMV_PROC_AI_305",
+				"GMV_PROC_AI_306",
+				"GMV_PROC_AS_501",
+				"GMV_PROC_AS_502",
+				"GMV_PROC_AS_503",
+				"GMV_PROC_AS_504",
+				"GMV_PROC_AS_505",
+				"GMV_PROC_AS_506",
+				"GMV_PROC_AS_507",
+				"GMV_PROC_AS_508",
+				"GMV_PROC_AS_509",
+				"GMV_PROC_AR_601",
+				"GMV_PROC_AR_602",
+				"GMV_PROC_AR_603",
+				"GMV_PROC_AR_604",
+				"GMV_PROC_AR_605",
+				"GMV_PROC_AH_701",
+				"GMV_PROC_AV_801",
+				"GMV_PROC_AV_802",
+				"GMV_PROC_AV_803",
+				"GMV_PROC_AV_805",
+				"GMV_PROC_AV_806",
+				"GMV_PROC_AV_807",
+				"GMV_PROC_AV_808",
+				"GMV_PROC_AV_809",
+				"GMV_PROC_AV_810",
+				"GMV_PROC_AV_811",
+				"GMV_PROC_AV_812",
+				"GMV_PROC_AV_813",
+				"GMV_PROC_AV_814",
+				"GMV_PROC_BS_101",
+				"GMV_PROC_BS_102",
+				"GMV_PROC_BS_103",
+				"GMV_PROC_BS_104",
+				"GMV_PROC_BS_105",
+				"GMV_PROC_BS_106",
+				"GMV_PROC_BS_107",
+				"GMV_PROC_BS_108",
+				"GMV_PROC_BS_109",
+				"GMV_PROC_BS_110",
+				"GMV_PROC_BS_111",
+				"GMV_PROC_BS_112",
+				"GMV_PROC_BS_113",
+				"GMV_PROC_BS_114",
+				"GMV_PROC_BS_115",
+				"GMV_PROC_BS_116",
+				"GMV_PROC_BS_117",
+				"GMV_PROC_BS_118",
+				"GMV_PROC_BS_119",
+				"GMV_PROC_BS_120",
+				"GMV_PROC_BS_121",
+				"GMV_PROC_BS_122",
+				"GMV_PROC_BS_123",
+				"GMV_PROC_BS_124",
+				"GMV_PROC_BS_125",
+				"GMV_PROC_BS_126",
+				"GMV_PROC_BS_127",
+				"GMV_PROC_BW_101",
+				"GMV_PROC_BW_102",
+			};
+		for (int i = 0; i <= 200; i++) {
+			String pracID = "GMV_PRACTICE_" + i;
+			String officeID = "GMV_PRACTICE_" + i + "_office_1";
+			int partnerIdx = i + 1;
+//			String partnerID = "GMV_PRACTICE_" + partnerIdx;
+//			String partnerOffice = "GMV_PRACTICE_" + partnerIdx + "_office_2";
+			for (int j = 0; j < 10; j++) {
+				int templateIdx = (int)(Math.random() * 70);
+				String bundleID = pracID + templateIDs[templateIdx];
+				BundleDoc bd = BundleDoc.createBundle(bundleID, pracID, templateIDs[templateIdx]);
+				if (bd.__providerID.isEmpty())
+					continue;
+
+				double random = Math.random();
+				double promoPrice = 4500 * random;
+				bd.setBasePrice(5000 * random);
+				bd.setTransferPrice(4000 * random);
+				bd.addEntryTime("Monday", true);
+				bd.addEntryTime("Tuesday", true);
+				bd.addEntryTime("Wednesday", true);
+				bd.addEntryTime("Thursday", true);
+				bd.addEntryTime("Friday", true);
+				bd.addEntryTime("Saturday", true);
+				bd.addCoreTime("Monday", true);
+				bd.addCoreTime("Wednesday", true);
+				bd.setPromoAvailable(false);
+				bd.setCancellationPercent(0.2);
+				bd.setFinancingAvailable(false);
+				bd.setNumberSold((int)Math.floor(random * 100));
+				bd.write();
+				try {
+					TimeUnit.SECONDS.sleep(1);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
+		MongoCollection<Document> coll = client.getDatabase(DatabaseDefinitions.NOSQL_DB).getCollection(DatabaseDefinitions.BUNDLE_COLL);
+        coll.createIndex(new BasicDBObject (FieldDefinitions.RENDERING_LOC, "2dsphere"));
+        client.close();
+	}
+	
 	public static void populateCollection () {
-		for (int i = 1; i <= 6000; i = i + 1) {
+		for (int i = 0; i <= 100; i = i + 1) {
 			String pracID = "GMV_PRACTICE_" + i;
 			String officeID = "GMV_PRACTICE_" + i + "_office_1";
 			int prev = i - 1;
 			String partnerID = "GMV_PRACTICE_" + prev;
 			String partnerOffice = "GMV_PRACTICE_" + prev + "_office_2";
 			String bundleID = pracID + "TPLO_Surgery_Bundle";
-			BundleDoc bd = BundleDoc.createBundle(bundleID + "_b", pracID, "GMV_PROC_B_102");
+			BundleDoc bd = BundleDoc.createBundle(bundleID + "_b", pracID, "GMV_PROC_BS_101");
 			if (bd.__providerID.isEmpty())
 				continue;
 			bd.setName("TPLO Bronze");
@@ -809,6 +1064,7 @@ public class BundleDoc {
 			bd.setPromoAvailable(false);
 			bd.setCancellationPercent(0.2);
 			bd.setFinancingAvailable(false);
+			bd.setNumberSold((int)Math.floor(random * 100));
 			Calendar cal = Calendar.getInstance();
 			cal.set(2017, 0, 12, 9, 0);
 			Date date = cal.getTime();
@@ -841,7 +1097,7 @@ public class BundleDoc {
 				e.printStackTrace();
 			}
 			
-			bd = BundleDoc.createBundle(bundleID + "_s", pracID, "GMV_PROC_B_102");
+			bd = BundleDoc.createBundle(bundleID + "_s", pracID, "GMV_PROC_BW_101");
 			bd.setVariantLevel(2);
 			basePrice = 6000 * random;
 			promoPrice = 5500 * random;
@@ -861,6 +1117,7 @@ public class BundleDoc {
 			bd.setPromoAvailable(true);
 			bd.setCancellationPercent(0.1);
 			bd.setFinancingAvailable(true);
+			bd.setNumberSold((int)Math.floor(random * 72));
 			bd.addAppointmentSlot(date, true, basePrice);
 
 			cal.add(Calendar.HOUR_OF_DAY, 1);
@@ -891,7 +1148,7 @@ public class BundleDoc {
 				e.printStackTrace();
 			}
 
-			bd = BundleDoc.createBundle(bundleID + "_g", pracID, "GMV_PROC_B_102");
+			bd = BundleDoc.createBundle(bundleID + "_g", pracID, "GMV_PROC_BS_119");
 			bd.setName("TPLO Gold");
 			basePrice = 7000 * random;
 			promoPrice = 6500 * random;
@@ -913,6 +1170,7 @@ public class BundleDoc {
 			bd.setPromoAvailable(true);
 			bd.setCancellationPercent(0.05);
 			bd.setFinancingAvailable(true);
+			bd.setNumberSold((int)Math.floor(random * 131));
 			bd.addAppointmentSlot(date, true, basePrice);
 
 			cal.add(Calendar.HOUR_OF_DAY, 1);
@@ -943,11 +1201,5 @@ public class BundleDoc {
 				e.printStackTrace();
 			}
 		}
-
-		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
-		MongoCollection<Document> coll = client.getDatabase(DatabaseDefinitions.NOSQL_DB).getCollection(DatabaseDefinitions.BUNDLE_COLL);
-        coll.createIndex(new BasicDBObject (FieldDefinitions.RENDERING_LOC, "2dsphere"));
-        client.close();
-		
 	}
 }

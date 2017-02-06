@@ -41,6 +41,7 @@ public class FieldDefinitions {
 	public static final String CORE_PROC = "Core";
 	public static final String APPLICABILITY = "Applies To";
 	public static final String INCLUDED_PROC = "Included";
+	public static final String INCLUSION_COUNT = "Inclusion Count";
 	public static final String STEP_NUMBER = "Step Number";
 	public static final String OWNER_ID = "Owner";
 	public static final String BREED_ID = "Breed";
@@ -58,6 +59,8 @@ public class FieldDefinitions {
 	public static final String PROCEDURE = "Procedure";
 	public static final String POSSIBLE_ADDITIONS = "Possible Additions";
 	public static final String VARIANT_LEVEL = "Variant Level";
+	public static final String VARIANTS_AVAILABLE = "Variants Available";
+	public static final String VARIANTS = "Variants";
 	public static final String INCLUDED_PARTS = "Included Parts";
 	public static final String POSSIBLE_PART_UPGRADES = "Possible Upgrade Parts";
 	public static final String ROLE_NAME = "Role";
@@ -67,7 +70,11 @@ public class FieldDefinitions {
 	public static final String PROC_TIME = "Procedure Time";
 	public static final String RES_TIME = "Results Time";
 	public static final String REGIONAL_PRICE = "Regional Price";
+	public static final String LIST_PRICE = "List Price";
+	public static final String LIST_DISCOUNT = "List Discount";
 	public static final String BASE_PRICE = "Base Price";
+	public static final String GMV_PRICE = "GMV Price";
+	public static final String UTILIZATION = "Utilization";
 	public static final String TRANSFER_PRICE = "Transfer Price";
 	public static final String PROMO_PRICE = "Promo Price";
 	public static final String TEMPLATE = "Template";
@@ -100,6 +107,7 @@ public class FieldDefinitions {
 	public static final String CORE_TIME = "Core Time";
 	public static final String ANIMALS_TREATED = "Animals Treated";
 	public static final String TEMPLATE_NAME = "Template Name";
+	public static final String TEMPLATE_FULL = "FullTemplate";
 	public static final String PRACTITIONERS = "Practitioners";
 	public static final String PRIMARY_SPECIALTY = "Primary Specialty";
 	public static final String SECONDARY_SPECIALTY = "Secondary Specialty";
@@ -120,4 +128,6 @@ public class FieldDefinitions {
 	public static final String CAN_EXIT = "Can Exit";
 	public static final String ENTRY_PRICE = "Entry Price";
 	public static final String EXIT_PENALTY = "Exit Penalty";
+	public static final String NUMBER_SOLD = "Number Sold";
+	public static final String PARTNERS = "Partners";
 }

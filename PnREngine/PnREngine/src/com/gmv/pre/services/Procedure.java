@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -30,6 +31,33 @@ public class Procedure {
 		return Response.status(200).entity(proc.toJSON()).build();
 	}
 
+	@Path ("/getAll")
+	@GET
+	@Produces (MediaType.APPLICATION_JSON)
+	public Response get () {
+		ArrayList<Document> all = ProcedureDoc.getAll();
+		Document d = new Document ("Procedures", all);
+		return Response.status(200).entity(d.toJson()).build();
+	}
+
+	@Path ("/getCount")
+	@GET
+	@Produces (MediaType.APPLICATION_JSON)
+	public Response getCount () {
+		Document doc = ProcedureDoc.getCount();
+		return Response.status(200).entity(doc.toJson()).build();
+	}
+
+	@Path ("/getPopular")
+	@GET
+	@Produces (MediaType.APPLICATION_JSON)
+	public Response getPopular (@QueryParam("limit") int limit) {
+		if (limit <= 0) {limit = 20;} //default limit
+		ArrayList<Document> docs = ProcedureDoc.getTopSelling(limit);
+		Document ret = new Document ("Popular", docs);
+		return Response.status(200).entity(ret.toJson()).build();
+	}
+
 	@Path ("/getByName")
 	@GET
 	@Produces (MediaType.APPLICATION_JSON)
@@ -54,7 +82,7 @@ public class Procedure {
 		String msg = "Set name to " + name;
 		ProcedureDoc procedure = new ProcedureDoc (id);
 		procedure.setName(name);
-		procedure.Write();
+		procedure.write();
 		return Response.status(200).entity(msg).build();
 	}
 
@@ -74,7 +102,7 @@ public class Procedure {
 		String msg = "Set Type to " + type;
 		ProcedureDoc procedure = new ProcedureDoc (id);
 		procedure.setType(type);
-		procedure.Write();
+		procedure.write();
 		return Response.status(200).entity(msg).build();
 	}
 	
@@ -94,7 +122,7 @@ public class Procedure {
 		String msg = "Set category to " + category;
 		ProcedureDoc procedure = new ProcedureDoc (id);
 		procedure.setCategory(category);
-		procedure.Write();
+		procedure.write();
 		return Response.status(200).entity(msg).build();
 	}
 	
@@ -114,7 +142,7 @@ public class Procedure {
 		String msg = "Set Description to " + Description;
 		ProcedureDoc procedure = new ProcedureDoc (id);
 		procedure.setDescription(Description);
-		procedure.Write();
+		procedure.write();
 		return Response.status(200).entity(msg).build();
 	}
 
@@ -134,7 +162,7 @@ public class Procedure {
 		String msg = "Set Core to " + Core;
 		ProcedureDoc procedure = new ProcedureDoc (id);
 		procedure.setCore(Core);
-		procedure.Write();
+		procedure.write();
 		return Response.status(200).entity(msg).build();
 	}
 
@@ -146,7 +174,7 @@ public class Procedure {
 		String msg = "Added alt Code " + code;
 		ProcedureDoc Procedure = new ProcedureDoc (id);
 		Procedure.addAltCode (code, provider);
-		Procedure.Write();
+		Procedure.write();
 		return Response.status(200).entity(msg).build();
 	}
 	
@@ -158,7 +186,7 @@ public class Procedure {
 		String msg = "Removed alt Code " + code;
 		ProcedureDoc Procedure = new ProcedureDoc (id);
 		Procedure.removeAltCode (code, provider);
-		Procedure.Write();
+		Procedure.write();
 		return Response.status(200).entity(msg).build();
 	}
 	
@@ -174,7 +202,7 @@ public class Procedure {
 		String msg = "Included procedure " + code;
 		ProcedureDoc Procedure = new ProcedureDoc (id);
 		Procedure.addInclusion (code, mandatory, referral, day, order, canExit);
-		Procedure.Write();
+		Procedure.write();
 		return Response.status(200).entity(msg).build();
 	}
 	
@@ -185,7 +213,7 @@ public class Procedure {
 		String msg = "Included procedure " + code;
 		ProcedureDoc Procedure = new ProcedureDoc (id);
 		Procedure.removeInclusion (code);
-		Procedure.Write();
+		Procedure.write();
 		return Response.status(200).entity(msg).build();
 	}
 
@@ -196,7 +224,7 @@ public class Procedure {
 		String msg = "Included part " + part;
 		ProcedureDoc Procedure = new ProcedureDoc (id);
 		Procedure.addPart (part);
-		Procedure.Write();
+		Procedure.write();
 		return Response.status(200).entity(msg).build();
 	}
 
@@ -207,7 +235,7 @@ public class Procedure {
 		String msg = "Remove part " + part;
 		ProcedureDoc Procedure = new ProcedureDoc (id);
 		Procedure.removePart (part);
-		Procedure.Write();
+		Procedure.write();
 		return Response.status(200).entity(msg).build();
 	}
 
@@ -218,7 +246,7 @@ public class Procedure {
 		String msg = "Included part upgrade " + part;
 		ProcedureDoc Procedure = new ProcedureDoc (id);
 		Procedure.addPartUpgrade (part);
-		Procedure.Write();
+		Procedure.write();
 		return Response.status(200).entity(msg).build();
 	}
 
@@ -229,7 +257,76 @@ public class Procedure {
 		String msg = "Remove part " + part;
 		ProcedureDoc Procedure = new ProcedureDoc (id);
 		Procedure.removePartUpgrade (part);
-		Procedure.Write();
+		Procedure.write();
 		return Response.status(200).entity(msg).build();
 	}
+	
+	@Path ("/getNumberSold")
+	@GET
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getNumberSold (@QueryParam("id") String id) {
+		int numSold = ProcedureDoc.getNumberSold (id);
+		Document d = new Document ("NumSold", numSold);
+		return Response.status(200).entity(d.toJson()).build();
+	}
+
+	@Path ("/getPriceStats")
+	@GET
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getPricingStats (@QueryParam("id") String id) {
+		Document priceStats = ProcedureDoc.getPriceStats (id);
+		return Response.status(200).entity(priceStats.toJson()).build();
+	}
+
+	@Path ("/getAverageByRank")
+	@GET
+	@Produces (MediaType.APPLICATION_JSON)
+	public Response getAverageByRank (@QueryParam("id") String id, 
+									  @QueryParam("rank") double rank) {
+		double d = ProcedureDoc.getAveragePriceForRank(id, rank);
+		Document avg = new Document ("Average", d);
+		return Response.status(200).entity(avg.toJson()).build();
+	}
+
+	@Path ("/getNearbyAverage")
+	@GET
+	@Produces (MediaType.APPLICATION_JSON)
+	public Response getNearbyAverage (@QueryParam("id") String id, 
+								      @QueryParam("lat") double lat,
+								      @QueryParam("lon") double lon,
+								      @QueryParam("dist") double dist) {
+		ArrayList<Document> d = ProcedureDoc.getNearbyAverage(id, lat, lon, dist);
+		Document avg = new Document ("Average", d);
+		return Response.status(200).entity(avg.toJson()).build();
+	}
+
+	@Path ("/getNationalAverage")
+	@GET
+	@Produces (MediaType.APPLICATION_JSON)
+	public Response getNationalAverage (@QueryParam("id") String id) {
+		double d = ProcedureDoc.getNationalAverage(id);
+		Document avg = new Document ("Average", d);
+		return Response.status(200).entity(avg.toJson()).build();
+	}
+
+	@Path ("/getAverageForTopSelling")
+	@GET
+	@Produces (MediaType.APPLICATION_JSON)
+	public Response getAverageForTopSelling (@QueryParam("id") String id, 
+									  @QueryParam("top") int topHowMany) {
+		double d = ProcedureDoc.getAveragePriceForTopSelling(id, topHowMany);
+		Document avg = new Document ("Average", d);
+		return Response.status(200).entity(avg.toJson()).build();
+	}
+
+	@Path ("/getVariant")
+	@GET
+	@Produces (MediaType.APPLICATION_JSON)
+	public Response getVariant (@QueryParam("core") String core, 
+							    @QueryParam("variant") int variant) {
+		String variantID = ProcedureDoc.getVariant(core, variant);
+		Document avg = new Document ("VariantID", variantID);
+		return Response.status(200).entity(avg.toJson()).build();
+	}
+
 }

@@ -256,10 +256,10 @@ public class OfferingDoc {
 		__additions.add(doc);
 	}
 	
-	public void setExitPenalty (int stepNumber, double refund) {
-		if (__template != null) {
-			__template.setExitPenalty (stepNumber, refund);
-		}
+	public void setExitRefund (int stepNumber, double refund) {
+//		if (__template != null) {
+//			__template.setExitRefund (stepNumber, refund);
+//		}
 	}
 	
 	public double getCancellationPenalty () {
@@ -364,12 +364,12 @@ public class OfferingDoc {
 			od1.setPartner("GMV_PROC_A_300", "GMV_PRACT");
 			od1.setOffice("GMV_PROC_A_203", "Main Street Lab Services");
 			od1.setCancellationPenalty(10);
-			od1.setExitPenalty(1, 5);
-			od1.setExitPenalty(5, 20);
-			od1.setExitPenalty(6, 70);
-			od1.setExitPenalty(9, 80);
-			od1.setExitPenalty(12, 95);
-			od1.setExitPenalty(13, 100);
+			od1.setExitRefund(1, 5);
+			od1.setExitRefund(5, 20);
+			od1.setExitRefund(6, 70);
+			od1.setExitRefund(9, 80);
+			od1.setExitRefund(12, 95);
+			od1.setExitRefund(13, 100);
 			od1.setDescription("bronze or standard version 1 extra office and 1 extra provider");
 			od1.helperAddTimeslotsForMonth(Calendar.DECEMBER);
 			coll.insertOne(od1.toDocument());;
@@ -387,12 +387,12 @@ public class OfferingDoc {
 			od2.setPartner("GMV_PROC_A_300", "Physio Therapist");
 			od2.addAddons("GMV_PROC_A_300", 4);
 			od2.setCancellationPenalty(5);
-			od2.setExitPenalty(1, 5);
-			od2.setExitPenalty(5, 20);
-			od2.setExitPenalty(6, 70);
-			od2.setExitPenalty(9, 80);
-			od2.setExitPenalty(12, 95);
-			od2.setExitPenalty(13, 100);
+			od2.setExitRefund(1, 5);
+			od2.setExitRefund(5, 20);
+			od2.setExitRefund(6, 70);
+			od2.setExitRefund(9, 80);
+			od2.setExitRefund(12, 95);
+			od2.setExitRefund(13, 100);
 			od2.setDescription("od1 - silver - slight upgrade - single office and 1 extra provider");
 			od2.helperAddTimeslotsForMonth(Calendar.DECEMBER);
 			coll.insertOne(od2.toDocument());;
@@ -405,12 +405,12 @@ public class OfferingDoc {
 			od3.setTransferPrice(2500);
 			od3.addAddons("GMV_PROC_A_300", 8);
 			od3.setCancellationPenalty(0);
-			od3.setExitPenalty(1, 5);
-			od3.setExitPenalty(5, 20);
-			od3.setExitPenalty(6, 70);
-			od3.setExitPenalty(9, 80);
-			od3.setExitPenalty(12, 95);
-			od3.setExitPenalty(13, 100);
+			od3.setExitRefund(1, 5);
+			od3.setExitRefund(5, 20);
+			od3.setExitRefund(6, 70);
+			od3.setExitRefund(9, 80);
+			od3.setExitRefund(12, 95);
+			od3.setExitRefund(13, 100);
 			od3.setDescription("od1 - gold - single office, single provider, best value");
 			if (randomNum > 0.5) {
 				od1.setFinancingAvailable(true);

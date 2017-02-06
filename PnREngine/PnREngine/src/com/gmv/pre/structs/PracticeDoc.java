@@ -1,8 +1,10 @@
 package com.gmv.pre.structs;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ListIterator;
+import java.util.Map;
 
 import org.bson.Document;
 
@@ -11,6 +13,7 @@ import com.gmv.pre.definitions.FieldDefinitions;
 import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 
 public class PracticeDoc {
 	
@@ -34,7 +37,14 @@ public class PracticeDoc {
 	private ArrayList<Document> __hoursOfOp;
 	private ArrayList<String> __animalsTreated;
 	private Document __rank;
+	private ArrayList<String> __partners;
 	
+	public static PracticeDoc readPractice (String id) {
+		PracticeDoc pd = new PracticeDoc ();
+		pd.read(id);
+		return pd;
+	}
+
 	public PracticeDoc () {
 		__socialMediaLinks = new ArrayList<String> ();
 		__addresses = new ArrayList<Document> ();
@@ -43,6 +53,7 @@ public class PracticeDoc {
 		__animalsTreated = new ArrayList<String> ();
 		__secondarySpecialty = new ArrayList<String> ();
 		__socialMediaLinks = new ArrayList<String> ();
+		__partners = new ArrayList<String> ();
 		__rank = new Document();
 		__location = new Document ();
 		fillOpenHours();
@@ -65,6 +76,7 @@ public class PracticeDoc {
 		doc.append(FieldDefinitions.RANKING, __rank);
 		doc.append(FieldDefinitions.OTHER_ADDRESSES, __addresses);
 		doc.append(FieldDefinitions.LOCATION, __location);
+		doc.append(FieldDefinitions.PARTNERS, __partners);
 		return doc;
 	}
 	
@@ -91,6 +103,7 @@ public class PracticeDoc {
 		__practitioners = (ArrayList<Document>)(doc.get(FieldDefinitions.PRACTITIONERS));
 		__addresses = (ArrayList<Document>)(doc.get(FieldDefinitions.OTHER_ADDRESSES));
 		__animalsTreated = (ArrayList<String>)(doc.get(FieldDefinitions.ANIMALS_TREATED));
+		__partners = (ArrayList<String>)(doc.get(FieldDefinitions.PARTNERS));
 		__rank = (Document)(doc.get(FieldDefinitions.RANKING));
 		__location = (Document)(doc.get(FieldDefinitions.LOCATION));
 	}
@@ -324,6 +337,128 @@ public class PracticeDoc {
 	
 	public void setCompositeRank (double rank) {
 		__rank.put(FieldDefinitions.COMPOSITE_RANKING, rank);
+	}
+	
+	public void addPartner (String partner) {
+		if (!__partners.contains(partner))
+			__partners.add(partner);
+	}
+	
+	public void removePartner (String partner) {
+		__partners.remove(partner);
+	}
+	
+	public ArrayList<String> getPartners () {
+		return __partners;
+	}
+	
+	public static Document getBundleCount (String practiceID) {
+		long all = 0, atomic = 0, bundles = 0, sick = 0, well = 0, dogs = 0, cats = 0; 
+		Document doc = new Document ();
+		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
+		MongoDatabase db = client.getDatabase(DatabaseDefinitions.NOSQL_DB);
+		if (db != null) {
+			MongoCollection<Document> coll = db.getCollection(DatabaseDefinitions.BUNDLE_COLL);
+			if (coll != null) {
+				Document provider = new Document ("Provider ID", practiceID);
+				all = coll.count(provider);
+				Document atomicdoc = new Document ("Provider ID", practiceID).append(FieldDefinitions.INCLUSION_COUNT, 0);
+				atomic = coll.count(atomicdoc);
+				bundles = all - atomic;
+				Document sickdoc = new Document ("Provider ID", practiceID).append(FieldDefinitions.REASON, "Sick");
+				sick = coll.count(sickdoc);
+				well = all - sick;
+				ArrayList<String> forDogs = new ArrayList<String>();
+				forDogs.add("all");
+				forDogs.add("any");
+				forDogs.add("dog");
+				Document dogsDoc = new Document ("Provider ID", practiceID).append("Applies To.Type", new Document("$in", forDogs));
+				dogs = coll.count(dogsDoc);
+				ArrayList<String> forCats = new ArrayList<String>();
+				forCats.add("all");
+				forCats.add("any");
+				forCats.add("cat");
+				Document catsDoc = new Document ("Provider ID", practiceID).append("Applies To.Type", new Document("$in", forCats));
+				dogs = coll.count(catsDoc);
+			}
+		}
+		doc.append("Total", (int)all);
+		doc.append("Atomic", (int)atomic);
+		doc.append("Bundles", (int)bundles);
+		doc.append("Sickness", (int)sick);
+		doc.append("Wellness", (int)well);
+		doc.append("Dogs", (int)dogs);
+		doc.append("Cats", (int)cats);
+		client.close();
+		return doc;
+	}
+	
+	public static Document getBundles (String practiceID) {
+		Document ret = new Document ();
+		ArrayList<Document> docs = new ArrayList<Document>();
+		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
+		MongoDatabase db = client.getDatabase(DatabaseDefinitions.NOSQL_DB);
+		if (db != null) {
+			MongoCollection<Document> coll = db.getCollection(DatabaseDefinitions.BUNDLE_COLL);
+			if (coll != null) {
+				Document match = new Document ("Provider ID", practiceID);
+				long count = coll.count(match);
+				FindIterable<Document> matches = coll.find(match);
+				Iterator<Document> iter = matches.iterator ();
+				while (iter.hasNext()) {
+					docs.add(iter.next());
+				}
+			}
+		}
+		ret.append("Bundles", docs);
+		client.close();
+		return ret;
+	}
+	
+	public static Map<String, String> unionProcedures (String practiceID, Map<String, String> currentlyOffered) {
+		Map<String, String> union = new HashMap<String, String>();
+		if (currentlyOffered == null) {currentlyOffered = new HashMap<String, String>();}
+		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
+		MongoDatabase db = client.getDatabase(DatabaseDefinitions.NOSQL_DB);
+		if (db != null) {
+			MongoCollection<Document> coll = db.getCollection(DatabaseDefinitions.BUNDLE_COLL);
+			if (coll != null) {
+				Document match = new Document ("Provider ID", practiceID);
+				FindIterable<Document> matches = coll.find(match);
+				Iterator<Document> iter = matches.iterator ();
+				while (iter.hasNext()) {
+					Document proc = iter.next();
+					String thisID = proc.getString("Template");
+					String thisName = proc.getString("Template Name");
+					union.put(thisID, thisName);
+					currentlyOffered.put(thisID, thisName);
+
+					ArrayList<Document> inclusions = (ArrayList<Document>)proc.get("Included");
+					if (inclusions != null) {
+						for (Document incl : inclusions) {
+							if (incl != null) {
+								String procedureID = incl.getString("Procedure");
+								String procedureName = incl.getString("Name");
+								union.put(procedureID, procedureName);
+							}
+						}
+					}
+				}
+			}
+		}
+		return union;
+	}
+	
+	public static Map<String, String> whatElseCanBeOffered (String practiceID) {
+		Map<String, String> currentlyOffered = new HashMap<String, String>();
+		Map<String, String> union = PracticeDoc.unionProcedures(practiceID, currentlyOffered);
+		Map<String, String> canBeOffered = ProcedureDoc.getBundlesForSuperset(union);
+		canBeOffered.keySet().removeAll(currentlyOffered.keySet());
+		for (Map.Entry<String, String> temp : canBeOffered.entrySet()) {
+			System.out.println (temp.getKey() + "/" + temp.getValue());
+		}
+		
+		return canBeOffered;
 	}
 	
 	public static PracticeDoc createSample () {

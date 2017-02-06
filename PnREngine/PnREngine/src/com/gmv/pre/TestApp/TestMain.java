@@ -34,6 +34,7 @@ import com.gmv.pre.definitions.QueryDefaults;
 import com.gmv.pre.definitions.RoleDefinitions;
 import com.gmv.pre.helpers.ImportDatabase;
 import com.gmv.pre.helpers.ZipToCoord;
+import com.gmv.pre.services.Bundle;
 import com.gmv.pre.structs.BreedDoc;
 import com.gmv.pre.structs.BundleDoc;
 import com.gmv.pre.structs.BundleInstanceDoc;
@@ -45,6 +46,14 @@ import com.gmv.pre.structs.PractitionerDoc;
 import com.gmv.pre.structs.ProcedureDoc;
 import com.gmv.pre.structs.UserDefDoc;
 import com.gmv.pre.structs.UserDoc;
+import com.gmv.pre.template.AtomicProcedures;
+import com.gmv.pre.template.FHOBundle;
+import com.gmv.pre.template.GDVBundle;
+import com.gmv.pre.template.KittyWellnessBundle;
+import com.gmv.pre.template.MPLBundle;
+import com.gmv.pre.template.PuppyWellnessBundle;
+import com.gmv.pre.template.SplenectomyBundle;
+import com.gmv.pre.template.TPLOBundle;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -302,10 +311,11 @@ return queryDoc;
 
 	public enum TM {t1, t2};
 	public static void main (String[] args) {
+		Date start = new Date ();
 		initDBVars ();
-//		ImportDatabase idb = new ImportDatabase();
-//		idb.importDogBreedsToDB_newFormat("C:/Users/srira/breeds.json", DatabaseDefinitions.NOSQL_DB, DatabaseDefinitions.BREED_COLL);
-//		idb.importPracticesToDB("C:/sriramr/gmv_feed/dummy_vet_location_data.csv", DatabaseDefinitions.NOSQL_DB, DatabaseDefinitions.PRAC_COLL);
+		ImportDatabase idb = new ImportDatabase();
+		idb.importDogBreedsToDB_newFormat("/home/ubuntu/breeds.json", DatabaseDefinitions.NOSQL_DB, DatabaseDefinitions.BREED_COLL);
+		idb.importPracticesToDB("/home/ubuntu/dummy_vet_location_data.csv", DatabaseDefinitions.NOSQL_DB, DatabaseDefinitions.PRAC_COLL);
 //		ProcedureDoc.populateCollection();
 //		PartDoc.populateCollection();
 //		BundleDoc.populateCollection();
@@ -318,9 +328,62 @@ return queryDoc;
 //		bid.setSalePrice(3500);
 //		System.out.println(bid.toDocument().toJson());
 //		
-		ZipToCoord zc = new ZipToCoord ("Washington", "DC");
-		System.out.println (zc.lat);
-		System.out.println (zc.lon);
+		AtomicProcedures.createAndPublish ();
+		TPLOBundle.createAndPublish (0, false);
+		TPLOBundle.createAndPublish (1, false);
+		TPLOBundle.createAndPublish (2, false);
+		TPLOBundle.createAndPublish (0, true);
+		TPLOBundle.createAndPublish (1, true);
+		TPLOBundle.createAndPublish (2, true);
+
+		FHOBundle.createAndPublish (0, false);
+		FHOBundle.createAndPublish (1, false);
+		FHOBundle.createAndPublish (2, false);
+		FHOBundle.createAndPublish (0, true);
+		FHOBundle.createAndPublish (1, true);
+		FHOBundle.createAndPublish (2, true);
+
+		MPLBundle.createAndPublish (0, false);
+		MPLBundle.createAndPublish (1, false);
+		MPLBundle.createAndPublish (2, false);
+		MPLBundle.createAndPublish (0, true);
+		MPLBundle.createAndPublish (1, true);
+		MPLBundle.createAndPublish (2, true);
+		
+		SplenectomyBundle.createAndPublish(0, false);
+		SplenectomyBundle.createAndPublish(1, false);
+		SplenectomyBundle.createAndPublish(2, false);
+		SplenectomyBundle.createAndPublish(0, true);
+		SplenectomyBundle.createAndPublish(1, true);
+		SplenectomyBundle.createAndPublish(2, true);
+		
+		GDVBundle.createAndPublish(0);
+		GDVBundle.createAndPublish(1);
+		GDVBundle.createAndPublish(2);
+		
+		PuppyWellnessBundle.createAndPublish ();
+		KittyWellnessBundle.createAndPublish ();
+//		BundleDoc bd = BundleDoc.createBundle("Sriram's Bundle", "GMV_PRACTICE_2", "GMV_PROC_BS_101");
+//		System.out.println(bd.toJSON());
+//		bd.writeToTemp();
+//		PracticeDoc.whatElseCanBeOffered("GMV_PRACTICE_72");
+//		ProcedureDoc.getAveragePriceForRank("GMV_PROC_BW_101", 3);
+//		ProcedureDoc.getAveragePriceForTopSelling("GMV_PROC_BW_101", 10);
+		BundleDoc.populateCollection2();
+//		ProcedureDoc.getNearbyAverage("GMV_PROC_BW_101", -74.00, 40.76, 10000);
+		
+//		ProcedureDoc pd = new ProcedureDoc ("GMV_PROC_BS_118");
+//		System.out.println(pd.toJSON());
+		
+//		String bundleUID = "GMV_PRACTICE_20" + "_" + "GMV_PROC_BS_102";
+//		BundleDoc bd = BundleDoc.createBundle(bundleUID, "GMV_PRACTICE_20", "GMV_PROC_BS_102");
+//		bd.writeToTemp();
+//		
+//		Document comparison = Comparator.compareVariants("GMV_PROC_BS_101");
+//		System.out.println(comparison.toJson());
+		Date end = new Date ();
+		double timeTaken = end.getTime() - start.getTime();
+		System.out.println("Time Taken - " + timeTaken + "ms");
 	}
 	
 	public static void main3 (String[] args) {

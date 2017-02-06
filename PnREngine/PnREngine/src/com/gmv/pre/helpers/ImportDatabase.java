@@ -173,6 +173,8 @@ public class ImportDatabase {
 			    	 phone = b[7];
 				     if (state.contains("NY") || state.contains("NJ") || state.contains("MD") || state.contains("DC")) {
 				    	 String uid = FieldDefinitions.PRACTICE_PREFIX + id++;
+				    	 String partner1 = FieldDefinitions.PRACTICE_PREFIX + id;
+				    	 String partner2 = FieldDefinitions.PRACTICE_PREFIX + (id+1);
 				    	 PracticeDoc pd = new PracticeDoc ();
 					     pd.setID(uid);
 				    	 pd.setName(name);
@@ -187,6 +189,8 @@ public class ImportDatabase {
 				    	 pd.addAddress("Admin Office", address);
 				    	 pd.addAddress("Billing & Claims Office", address);
 				    	 pd.setPhone(phone);
+				    	 pd.addPartner(partner1);
+				    	 pd.addPartner(partner2);
 				    	 
 					     BsonDouble longitude_d = new BsonDouble (Double.parseDouble(longitude));
 					     BsonDouble latitude_d = new BsonDouble(Double.parseDouble(latitude));

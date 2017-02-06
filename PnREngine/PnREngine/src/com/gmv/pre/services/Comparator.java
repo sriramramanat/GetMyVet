@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 import org.bson.Document;
 
 import com.gmv.pre.structs.BundleDoc;
+import com.gmv.pre.structs.ProcedureDoc;
 
 @Path ("/compare")
 public class Comparator {
@@ -23,6 +24,16 @@ public class Comparator {
 									@QueryParam("b2") String b2,
 									@QueryParam("b3") String b3) {
 		Document comparison = com.gmv.pre.core.Comparator.compareBundles(b1, b2, b3);
+		return Response.status(200).entity(comparison.toJson()).build();
+	}
+
+	@Path ("/variants")
+	@GET
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response compareVariants (@QueryParam("bid") String bundle) {
+		System.out.println(bundle);
+		Document comparison = com.gmv.pre.core.Comparator.compareVariants(bundle);
+		System.out.println(comparison.toJson());
 		return Response.status(200).entity(comparison.toJson()).build();
 	}
 }

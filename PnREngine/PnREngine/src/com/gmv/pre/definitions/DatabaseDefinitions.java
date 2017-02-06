@@ -20,6 +20,7 @@ public class DatabaseDefinitions {
 	public static final String PRACTITIONER_COLL = "practitioner";
 	public static final String OFFERING_COLL = "offering";
 	public static final String BUNDLE_COLL = "sellable_bundles";
+	public static final String BUNDLE_TEMP_COLL = "pre_sellable_bundles";
 	public static final String SOLD_BUNDLES_COLL = "sold_bundles";
 	
 	public static final String BREED_COLL_VER = "1.0";

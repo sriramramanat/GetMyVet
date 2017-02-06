@@ -1,7 +1,12 @@
 package com.gmv.pre.structs;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.bson.Document;
@@ -9,7 +14,9 @@ import org.bson.Document;
 import com.gmv.pre.definitions.DatabaseDefinitions;
 import com.gmv.pre.definitions.FieldDefinitions;
 import com.gmv.pre.definitions.RoleDefinitions;
+import com.mongodb.BasicDBList;
 import com.mongodb.MongoClient;
+import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -30,6 +37,7 @@ public class ProcedureDoc {
 	private String __description = null;
 	private String __core = null;
 	private int __variantLevel = 0;
+	private boolean __variantsAvailable = false;
 	private String __reason = null;
 	private String __whoCanDo = null;
 	private double __procTime;
@@ -37,6 +45,7 @@ public class ProcedureDoc {
 	private double __regionalPrice;
 	private ArrayList<Document> __altCode;
 	private ArrayList<Document> __appliesTo;
+	private ArrayList<Document> __variants;
 	protected ArrayList<Document> __included;
 	private ArrayList<String> __includedParts;
 	private ArrayList<String> __possibleInclusions;
@@ -55,7 +64,7 @@ public class ProcedureDoc {
 		initAndSetDefaults ();
 		addApplicability ("all", "any", 0, 1000, 0, 1000);
 		__id = id;
-		Read (id);
+		read (id);
 	}
 	
 	protected void initAndSetDefaults () {
@@ -63,6 +72,7 @@ public class ProcedureDoc {
 		__altCode = new ArrayList<Document>();
 		__appliesTo = new ArrayList<Document>();
 		__included = new ArrayList<Document>();
+		__variants = new ArrayList<Document>();
 		__possibleInclusions = new ArrayList<String>();
 		__includedParts = new ArrayList<String>();
 		__possibleUpgradeParts = new ArrayList<String>();
@@ -90,6 +100,8 @@ public class ProcedureDoc {
 		doc.append(FieldDefinitions.DESCRIPTION, __description);
 		if (__core == null || __core.isEmpty()) {__core = __id;}
 		doc.append(FieldDefinitions.VARIANT_LEVEL, __variantLevel);
+		doc.append(FieldDefinitions.VARIANTS_AVAILABLE, __variantsAvailable);
+		doc.append(FieldDefinitions.VARIANTS, __variants);
 		doc.append(FieldDefinitions.REASON, __reason);
 		doc.append(FieldDefinitions.WHO_CAN_DO, __whoCanDo);
 		doc.append(FieldDefinitions.PROC_TIME, __procTime);
@@ -99,6 +111,7 @@ public class ProcedureDoc {
 		doc.append(FieldDefinitions.ALT_CODE, __altCode);
 		doc.append(FieldDefinitions.APPLICABILITY, __appliesTo);
 		doc.append(FieldDefinitions.INCLUDED_PROC, __included);
+		doc.append(FieldDefinitions.INCLUSION_COUNT, __included.size());
 		doc.append(FieldDefinitions.INCLUDED_PARTS, __includedParts);
 		doc.append(FieldDefinitions.POSSIBLE_ADDITIONS, __possibleInclusions);
 		doc.append(FieldDefinitions.POSSIBLE_PART_UPGRADES, __possibleUpgradeParts);
@@ -113,6 +126,8 @@ public class ProcedureDoc {
 		doc.append(FieldDefinitions.DESCRIPTION, __description);
 		if (__core == null || __core.isEmpty()) {__core = __id;}
 		doc.append(FieldDefinitions.VARIANT_LEVEL, __variantLevel);
+		doc.append(FieldDefinitions.VARIANTS_AVAILABLE, __variantsAvailable);
+		doc.append(FieldDefinitions.VARIANTS, __variants);
 		doc.append(FieldDefinitions.REASON, __reason);
 		doc.append(FieldDefinitions.WHO_CAN_DO, __whoCanDo);
 		doc.append(FieldDefinitions.PROC_TIME, __procTime);
@@ -142,6 +157,8 @@ public class ProcedureDoc {
 		__category = doc.getString(FieldDefinitions.CATEGORY);
 		__description = doc.getString(FieldDefinitions.DESCRIPTION);
 		__variantLevel = doc.getInteger(FieldDefinitions.VARIANT_LEVEL, 0);
+		__variantsAvailable = doc.getBoolean (FieldDefinitions.VARIANTS_AVAILABLE);
+		__variants = (ArrayList<Document>) (doc.get(FieldDefinitions.VARIANTS));
 		__reason = doc.getString(FieldDefinitions.REASON);
 		__whoCanDo = doc.getString(FieldDefinitions.WHO_CAN_DO);
 		__procTime = doc.getDouble(FieldDefinitions.PROC_TIME);
@@ -161,7 +178,7 @@ public class ProcedureDoc {
 		return toDocument().toJson();
 	}
 
-	public void Read (String id) {
+	public void read (String id) {
 		if (__dbName == "" || __collName == "")
 			return;
 		
@@ -181,7 +198,7 @@ public class ProcedureDoc {
 		client.close();
 	}
 	
-	public void Write () {
+	public void write () {
 		if (__dbName == "" || __collName == "")
 			return;
 		
@@ -231,6 +248,10 @@ public class ProcedureDoc {
 	public String getID () {
 		return __id;
 	}
+	
+	public void setID (String id) {
+		__id = id;
+	}
 
 	public String getName () {
 		return __name;
@@ -270,6 +291,30 @@ public class ProcedureDoc {
 	
 	public void setVariantLevel (int vl) {
 		__variantLevel = vl;
+	}
+	
+	public boolean getVariantsAvailable () {
+		return __variantsAvailable;
+	}
+	
+	public void setVariantsAvailable (boolean available) {
+		__variantsAvailable = available;
+	}
+	
+	public void addVariant (int level, String id) {
+		Document d = new Document ("Level", level);
+		d.append("Id", id);
+		__variants.add(d);
+	}
+	
+	public void removeVariant (int level, String id) {
+		Document d = new Document ("Level", level);
+		d.append("Id", id);
+		__variants.remove(d);
+	}
+	
+	public ArrayList<Document> getVariants () {
+		return __variants;
 	}
 	
 	public String getReason () {
@@ -317,8 +362,7 @@ public class ProcedureDoc {
 	}
 	
 	public void setCore (String core) {
-		if (__included.contains(core))
-			__core = core;
+		__core = core;
 	}
 
 	public void addAltCode (String code, String provider) {
@@ -429,16 +473,32 @@ public class ProcedureDoc {
 		__appliesTo.remove(breed);
 	}
 	
+	public int getNumInclusions () {
+		return __included.size();
+	}
+	
+	public int getNumOptional () {
+		int count = 0;
+		for (Document d : __included) {
+			if (!d.getBoolean("Mandatory", false)) {
+				count++;
+			}
+		}
+		return count;
+	}
+	
 	private void addInclusion (Document toInsert, int order) {
 		int count = __included.size();
 		if (order > count + 1) {
 			//insert placeholders till count is reached
 			for (int i = count; i < order - 1; i++) {
 				Document placeholder = new Document ("Procedure", "GMV_PROC_PH");
+				placeholder.append ("Name", "Placeholder");
 				placeholder.append ("Mandatory", false);
 				placeholder.append ("Referral Required", false);
-				placeholder.append("Day", "TBD");
-				placeholder.append("Step Number", i + 1);
+				placeholder.append ("Day", "TBD");
+				placeholder.append ("Price %", 0.0);
+				placeholder.append ("Step Number", i + 1);
 				__included.add(placeholder);
 			}
 			toInsert.append("Step Number", order);
@@ -480,16 +540,15 @@ public class ProcedureDoc {
 		toInsert.append ("Referral Required", referralRquired);
 		toInsert.append("Day", day);
 		toInsert.append("Can Exit", canExit);
-		if (canExit) {
-			toInsert.append("Exit Penalty", 0);
-		} else {
-			toInsert.append("Exit Penalty", 100);
-		}
+		toInsert.append ("Price %", 100);
+//		if (canExit) {
+//			toInsert.append("Exit Refund", 0);
+//		} else {
+//			toInsert.append("Exit Refund", 100.0);
+//		}
 		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
 		MongoDatabase db = client.getDatabase(__dbName);
-		if (db == null) {return;}
 		MongoCollection<Document> coll = db.getCollection(__collName);
-		if (coll == null) {return;}
 		Document toFind = new Document(FieldDefinitions.UNIQUE_ID, procID);
 		FindIterable<Document> iterable = coll.find(toFind);
 		Iterator<Document> iter = iterable.iterator ();
@@ -500,12 +559,15 @@ public class ProcedureDoc {
 		allDoc.append("Category", "any");
 		allDoc.append("Gender", "any");
 		allDoc.append("Min age", 0);
-		allDoc.append("Max age", 1000);
+		allDoc.append("Max age", 100);
+		allDoc.append("Min Weight(lbs)", 0);
+		allDoc.append("Max Weight(lbs)", 1000);
 
 		if (iter.hasNext()) {
 			// okay, the inclusion is already part of the system, let's add it
 			ProcedureDoc procedureDoc = new ProcedureDoc();
 			procedureDoc.fromDocument(iter.next()); // this is the procedure to be added.
+			toInsert.append("Name", procedureDoc.__name);
 			if (procedureDoc.__appliesTo.contains(allDoc) || __appliesTo.contains(allDoc)) {
 				//no problem. add it.
 				addInclusion (toInsert, order);
@@ -524,17 +586,28 @@ public class ProcedureDoc {
 		client.close();
 	}
 	
-	public void setExitPenalty (int stepNumber, double penalty) {
+	public void setPercentOfTotalPrice (int stepNumber, double percent) {
 		for (int i = 0; i < __included.size(); i++) {
 			Document d = __included.get(i);
 			if (d.getInteger("Step Number") == stepNumber) {
-				d.put("Can Exit", true);
-				d.put("Exit Penalty", penalty);
+				d.put("Price %", percent);
 				__included.set(i, d);
 				break;
 			}
 		}
 	}
+
+//	public void setExitRefund (int stepNumber, double refund) {
+//		for (int i = 0; i < __included.size(); i++) {
+//			Document d = __included.get(i);
+//			if (d.getInteger("Step Number") == stepNumber) {
+//				d.put("Can Exit", true);
+//				d.put("Exit Refund", refund);
+//				__included.set(i, d);
+//				break;
+//			}
+//		}
+//	}
 	
 	public void setReferralRequirement (String procedureID, boolean referral) {
 		for (int i = 0; i < __included.size(); i ++) {
@@ -643,6 +716,300 @@ public class ProcedureDoc {
 		return false;
 	}
 	
+	public static Document getCount () {
+		long all=0, atomic=0, bundles=0, sick=0, well=0, dogs=0, cats=0; 
+		Document doc = new Document ();
+		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
+		MongoDatabase db = client.getDatabase(__dbName);
+		if (db != null) {
+			MongoCollection<Document> coll = db.getCollection(__collName);
+			if (coll != null) {
+				all = coll.count();
+				atomic = coll.count(new Document(FieldDefinitions.INCLUSION_COUNT, 0));
+				bundles = all - atomic;
+				sick = coll.count(new Document(FieldDefinitions.REASON, "Sick"));
+				well = all - sick;
+				ArrayList<String> forDogs = new ArrayList<String>();
+				forDogs.add("all");
+				forDogs.add("any");
+				forDogs.add("dog");
+				dogs = coll.count(new Document("Applies To.Type", new Document("$in", forDogs)));
+				ArrayList<String> forCats = new ArrayList<String>();
+				forCats.add("all");
+				forCats.add("any");
+				forCats.add("cat");
+				cats = coll.count(new Document("Applies To.Type", new Document("$in", forCats)));
+			}
+		}
+		doc.append("Total", (int)all);
+		doc.append("Atomic", (int)atomic);
+		doc.append("Bundles", (int)bundles);
+		doc.append("Sickness", (int)sick);
+		doc.append("Wellness", (int)well);
+		doc.append("Dogs", (int)dogs);
+		doc.append("Cats", (int)cats);
+		client.close();
+		return doc;
+	}
+	
+	public static ArrayList<Document> getTopSelling (int limit) {
+		ArrayList<Document> ret = new ArrayList<Document> ();
+		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
+		MongoDatabase db = client.getDatabase(__dbName);
+		MongoCollection<Document> coll = db.getCollection(DatabaseDefinitions.BUNDLE_COLL);
+		if (coll != null) {
+			AggregateIterable<Document> output = coll.aggregate(Arrays.asList(
+					new Document("$group", new Document ("_id", "$Template Name").append("numSold", new Document("$sum", "$Number Sold")).
+																				  append("avgPrice", new Document("$avg", "$Base Price"))),
+					new Document("$sort", new Document ("numSold", 1))
+					)
+					);
+			int count = 1;
+			for (Document d : output) {
+				ret.add(d);
+				if (count++ > limit) {break;}
+			}
+		}
+		client.close();
+		return ret;
+	}
+	
+	public static double getAveragePriceForRank (String templateID, double anchorRank) {
+		double ret = 0;
+		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
+		MongoDatabase db = client.getDatabase(__dbName);
+		MongoCollection<Document> coll = db.getCollection(DatabaseDefinitions.BUNDLE_COLL);
+		if (coll != null) {
+			Document match = new Document ("Template", templateID);
+			if (anchorRank != 0) {
+				match.append("Provider Rank.Composite Ranking", new Document ("$gte", anchorRank - 0.5)
+																			.append("$lte", anchorRank + 0.5));
+			}
+			AggregateIterable<Document> out = coll.aggregate(Arrays.asList(
+							new Document("$match", match),
+							new Document("$group", new Document ("_id", "$Template Name").append("numSold", new Document("$sum", "$Number Sold")).
+									  append("avgPrice", new Document("$avg", "$Base Price")))
+							)
+					);
+			for (Document d : out) {
+				ret = d.getDouble("avgPrice");
+			}
+		}
+		client.close();
+		return ret;
+	}
+	
+	public static double getAveragePriceForTopSelling (String templateID, int topWhat) {
+		double ret = 0;
+		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
+		MongoDatabase db = client.getDatabase(__dbName);
+		MongoCollection<Document> coll = db.getCollection(DatabaseDefinitions.BUNDLE_COLL);
+		if (coll != null) {
+			Document match = new Document ("Template", templateID);
+			AggregateIterable<Document> out = coll.aggregate(Arrays.asList(
+							new Document("$match", match),
+							new Document("$sort", new Document("Number Sold", -1)),
+							new Document("$limit", topWhat),
+							new Document("$group", new Document ("_id", "$Template Name").append("numSold", new Document("$sum", "$Number Sold")).
+									  append("avgPrice", new Document("$avg", "$Base Price")))
+							)
+					);
+			for (Document d : out) {
+				ret = d.getDouble("avgPrice");
+			}
+		}
+		client.close();
+		return ret;
+	}
+	
+	public static String getVariant (String coreID, int variantLevel) {
+		String ret = "";
+		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
+		MongoDatabase db = client.getDatabase(__dbName);
+		MongoCollection<Document> coll = db.getCollection(DatabaseDefinitions.PROCEDURE_COLL);
+		if (coll != null) {
+			Document match = new Document ("Core", coreID);
+			match.append("Variants Available", true);
+			match.append("Variant Level", variantLevel);
+			FindIterable<Document> out = coll.find(match);
+			Iterator<Document> iter = out.iterator();
+			while (iter.hasNext()) {
+				Document d = iter.next();
+				ret = d.getString("UniqueID");
+			}
+		}
+		client.close();
+		return ret;
+	}
+	
+	/**
+	 * @param templateID - the template ID
+	 * @param lat - latitude
+	 * @param lon - longitude
+	 * @param dist - max distance
+	 * @return - Nearby average by state (if the 2dsphere happens to span state boundaries)
+	 * Example return - [{ "_id" : { "Template" : "Puppy Wellness Bundle", "State" : "DC" }, "numSold" : 1310, "avgPrice" : 2209.78596537435 }]
+	 */
+	public static ArrayList<Document> getNearbyAverage (String templateID, double lat, double lon, double dist) {
+		ArrayList<Document> ret = new ArrayList<Document>();
+		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
+		MongoDatabase db = client.getDatabase(__dbName);
+		MongoCollection<Document> coll = db.getCollection(DatabaseDefinitions.BUNDLE_COLL);
+		if (coll != null) {
+			BasicDBList dblList = new BasicDBList ();
+			dblList.add(lon);
+			dblList.add(lat);
+			Document geom = new Document ("type", "Point");
+			geom.append("coordinates", dblList);
+			Document near = new Document ("near", geom);
+			near.append("distanceField", "dist");
+			near.append("maxDistance", dist);
+			near.append("includeLocs", "Rendering Location");
+			near.append("spherical", true);
+			
+			Document match = new Document ("Template", templateID);
+
+//					System.out.println(new Document("$geoNear", near).toJson());
+//					System.out.println (new Document("$match", match).toJson());
+//					System.out.println (new Document("$sort", new Document("Number Sold", 1)).toJson());
+//					System.out.println (new Document("$group", new Document ("_id", new Document("Template", "$Template Name").append("State", "$Rendering Address.State")).append("numSold", new Document("$sum", "$Number Sold")).
+//							  append("avgPrice", new Document("$avg", "$Base Price"))).toJson()
+//					);
+			AggregateIterable<Document> out = coll.aggregate(Arrays.asList(
+							new Document("$geoNear", near),
+							new Document("$match", match),
+							new Document("$sort", new Document("Number Sold", 1)),
+							new Document("$group", new Document ("_id", new Document("Template", "$Template Name").append("State", "$Rendering Address.State")).append("numSold", new Document("$sum", "$Number Sold")).
+									  append("avgPrice", new Document("$avg", "$Base Price")))
+							)
+					);
+			for (Document d : out) {
+				ret.add(d);
+			}
+		}
+		client.close();
+		return ret;
+	}
+
+	public static ArrayList<String> getAllProcedureIDs () {
+		ArrayList<String> allProcedures = new ArrayList<String>();
+		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
+		MongoDatabase db = client.getDatabase(__dbName);
+		MongoCollection<Document> coll = db.getCollection(__collName);
+		if (coll != null) {
+			FindIterable<Document> all = coll.find();
+			Iterator<Document> iter = all.iterator();
+			while (iter.hasNext()) {
+				Document proc = iter.next();
+				String id = proc.getString(FieldDefinitions.UNIQUE_ID);
+				allProcedures.add(id);
+			}
+		}
+		
+		client.close();
+		return allProcedures;
+	}
+	
+	public static Map<String, String> getBundlesForSuperset (Map<String, String> superSet) {
+		HashMap<String, String> retVal = new HashMap<String, String>();
+		Set<String> keys = superSet.keySet();
+		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
+		MongoDatabase db = client.getDatabase(__dbName);
+		MongoCollection<Document> coll = db.getCollection(__collName);
+		if (coll != null) {
+			FindIterable<Document> all = coll.find();
+			Iterator<Document> iter = all.iterator();
+			while (iter.hasNext()) {
+				Document proc = iter.next();
+				String id = proc.getString(FieldDefinitions.UNIQUE_ID);
+				String name = proc.getString(FieldDefinitions.NAME);
+				int inclCount = proc.getInteger("Inclusion Count", 0);
+				if (inclCount > 0) {
+					ArrayList<Document> included = (ArrayList<Document>)proc.get("Included");
+					if (included != null) {
+						ArrayList<String> inclIds = new ArrayList<String>();
+						for (Document temp : included) {
+							String inclId = temp.getString("Procedure");
+							inclIds.add(inclId);
+						}
+						if (keys.containsAll(inclIds)) {
+							retVal.put(id, name);
+						}
+					}
+				} else {
+					String procID = proc.getString(FieldDefinitions.UNIQUE_ID);
+					if (keys.contains(procID)) {
+						retVal.put(id, name);
+					}
+				}
+			}
+		}
+
+		client.close();
+		return retVal;
+	}
+	
+	public static ArrayList<Document> getAll () {
+		ArrayList<Document> all = new ArrayList<Document>();
+		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
+		MongoDatabase db = client.getDatabase(__dbName);
+		MongoCollection<Document> coll = db.getCollection(DatabaseDefinitions.PROCEDURE_COLL);
+		FindIterable<Document> out = coll.find();
+		Iterator<Document> iter = out.iterator();
+		while (iter.hasNext()) {
+			all.add(iter.next());
+		}
+		client.close();
+		return all;
+	}
+	
+	public static double getNationalAverage (String templateID) {
+		double ret = 0;
+		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
+		MongoDatabase db = client.getDatabase(__dbName);
+		MongoCollection<Document> coll = db.getCollection(DatabaseDefinitions.BUNDLE_COLL);
+		if (coll != null) {
+			Document match = new Document ("Template", templateID);
+			AggregateIterable<Document> out = coll.aggregate(Arrays.asList(
+							new Document("$match", match),
+							new Document("$group", new Document ("_id", "$Template Name").append("numSold", new Document("$sum", "$Number Sold")).
+									  append("avgPrice", new Document("$avg", "$Base Price")))
+							)
+					);
+			for (Document d : out) {
+				ret = d.getDouble("avgPrice");
+			}
+		}
+		client.close();
+		return ret;
+	}
+	
+	public static int getNumberSold (String templateID) {
+		int ret = 0;
+		MongoClient client = new MongoClient (DatabaseDefinitions.MONGO_SERVER_LIST);
+		MongoDatabase db = client.getDatabase(__dbName);
+		MongoCollection<Document> coll = db.getCollection(DatabaseDefinitions.BUNDLE_COLL);
+		if (coll != null) {
+			Document match = new Document ("Template", templateID);
+			AggregateIterable<Document> out = coll.aggregate(Arrays.asList(
+							new Document("$match", match),
+							new Document("$group", new Document ("_id", "$Template Name").append("numSold", new Document("$sum", "$Number Sold")).
+									  append("avgPrice", new Document("$avg", "$Base Price")))
+							)
+					);
+			for (Document d : out) {
+				ret = d.getInteger("numSold", 0);
+			}
+		}
+		client.close();
+		return ret;
+	}
+
+	public static Document getPriceStats (String id) {
+		Document ret = new Document ();
+		return ret;
+	}
+	
 	public static void populateCollection () {
 		createAndAddAtomicProcedures();
 		createAndAddBundles();
@@ -660,7 +1027,7 @@ public class ProcedureDoc {
 		pd.setDescription("This is a generic placeholder procedure");
 		pd.setReason ("Well");
 		pd.setWhoCanDo(RoleDefinitions.ROLE_001);
-		pd.Write();
+		pd.write();
 		
 		pd = new ProcedureDoc ("GMV_PROC_A_100");
 		pd.setName("Consultation - Type 1");
@@ -673,7 +1040,7 @@ public class ProcedureDoc {
 		pd.setDescription("This is a wellness consultation");
 		pd.setReason ("Well");
 		pd.setWhoCanDo(RoleDefinitions.ROLE_008);
-		pd.Write();
+		pd.write();
 
 		pd = new ProcedureDoc ("GMV_PROC_A_101");
 		pd.setName("Consultation - Type 2");
@@ -686,7 +1053,7 @@ public class ProcedureDoc {
 		pd.setDescription("Sickness Consult");
 		pd.setReason ("Sick");
 		pd.setWhoCanDo(RoleDefinitions.ROLE_008);
-		pd.Write();
+		pd.write();
 
 		pd = new ProcedureDoc ("GMV_PROC_A_102");
 		pd.setName("Consultation - Type 3");
@@ -699,7 +1066,7 @@ public class ProcedureDoc {
 		pd.setDescription("Wellness Consult");
 		pd.setReason ("Well");
 		pd.setWhoCanDo(RoleDefinitions.ROLE_008);
-		pd.Write();
+		pd.write();
 
 		pd = new ProcedureDoc ("GMV_PROC_A_103");
 		pd.setName("Consultation - Type 4");
@@ -712,7 +1079,7 @@ public class ProcedureDoc {
 		pd.setDescription("Wellness Consult");
 		pd.setReason ("Well");
 		pd.setWhoCanDo(RoleDefinitions.ROLE_008);
-		pd.Write();
+		pd.write();
 
 		pd = new ProcedureDoc ("GMV_PROC_A_104");
 		pd.setName("Sedation for Imaging");
@@ -725,7 +1092,7 @@ public class ProcedureDoc {
 		pd.setDescription("Sedation for Imaging");
 		pd.setReason ("Well");
 		pd.setWhoCanDo(RoleDefinitions.ROLE_015);
-		pd.Write();
+		pd.write();
 
 		pd = new ProcedureDoc ("GMV_PROC_A_200");
 		pd.setName("Blood Count");
@@ -738,7 +1105,7 @@ public class ProcedureDoc {
 		pd.setDescription("Blood Work");
 		pd.setReason ("Well");
 		pd.setWhoCanDo(RoleDefinitions.ROLE_011);
-		pd.Write();
+		pd.write();
 
 		pd = new ProcedureDoc ("GMV_PROC_A_201");
 		pd.setName("Blood Count");
@@ -751,7 +1118,7 @@ public class ProcedureDoc {
 		pd.setDescription("Blood Work");
 		pd.setReason ("Sick");
 		pd.setWhoCanDo(RoleDefinitions.ROLE_011);
-		pd.Write();
+		pd.write();
 
 		pd = new ProcedureDoc ("GMV_PROC_A_202");
 		pd.setName("Blood Count");
@@ -764,7 +1131,7 @@ public class ProcedureDoc {
 		pd.setDescription("Blood Work");
 		pd.setReason ("Sick");
 		pd.setWhoCanDo(RoleDefinitions.ROLE_011);
-		pd.Write();
+		pd.write();
 
 		pd = new ProcedureDoc ("GMV_PROC_A_203");
 		pd.setName("Urinalysis");
@@ -777,7 +1144,7 @@ public class ProcedureDoc {
 		pd.setDescription("Urine Analysis");
 		pd.setReason ("Sick");
 		pd.setWhoCanDo(RoleDefinitions.ROLE_012);
-		pd.Write();
+		pd.write();
 
 		pd = new ProcedureDoc ("GMV_PROC_A_204");
 		pd.setName("Urinalysis");
@@ -790,7 +1157,7 @@ public class ProcedureDoc {
 		pd.setDescription("Urine Analysis");
 		pd.setReason ("Sick");
 		pd.setWhoCanDo(RoleDefinitions.ROLE_012);
-		pd.Write();
+		pd.write();
 
 		pd = new ProcedureDoc ("GMV_PROC_A_205");
 		pd.setName("Imaging Procedure");
@@ -803,7 +1170,7 @@ public class ProcedureDoc {
 		pd.setRegionalPrice (225);
 		pd.setReason ("Sick");
 		pd.setWhoCanDo(RoleDefinitions.ROLE_013);
-		pd.Write();
+		pd.write();
 		
 		pd = new ProcedureDoc ("GMV_PROC_A_206");
 		pd.setName("Imaging Procedure");
@@ -816,7 +1183,7 @@ public class ProcedureDoc {
 		pd.setRegionalPrice (225);
 		pd.setReason ("Sick");
 		pd.setWhoCanDo(RoleDefinitions.ROLE_014);
-		pd.Write();
+		pd.write();
 
 		pd = new ProcedureDoc ("GMV_PROC_A_300");
 		pd.setName("Rehab");
@@ -829,7 +1196,7 @@ public class ProcedureDoc {
 		pd.setRegionalPrice (135);
 		pd.setReason ("Rehab");
 		pd.setWhoCanDo(RoleDefinitions.ROLE_009);
-		pd.Write();
+		pd.write();
 
 		pd = new ProcedureDoc ("GMV_PROC_A_501");
 		pd.setName("TPLO Surgery");
@@ -843,7 +1210,7 @@ public class ProcedureDoc {
 		pd.setRegionalPrice (2500);
 		pd.setReason ("Sick");
 		pd.setWhoCanDo(RoleDefinitions.ROLE_008);
-		pd.Write();
+		pd.write();
 	}
 	
 	public static void createAndAddBundles() {
@@ -884,7 +1251,7 @@ public class ProcedureDoc {
 
 		pd.addPossibleInclusion("GMV_PROC_A_300");
 		pd.addPart("GMV_PART_003");
-		pd.Write();
+		pd.write();
 		
 		pd = new ProcedureDoc ("GMV_PROC_B_102");
 		pd.setName("TPLO - Large Dog");
@@ -923,7 +1290,7 @@ public class ProcedureDoc {
 
 		pd.addPossibleInclusion("GMV_PROC_A_300");
 		pd.addPart("GMV_PART_004");
-		pd.Write();
+		pd.write();
 		
 		pd = new ProcedureDoc ("Inclusion_Test");
 		pd.addInclusion("GMV_PROC_A_100", true, true, "x", -1, false);
@@ -931,6 +1298,6 @@ public class ProcedureDoc {
 		pd.addInclusion("GMV_PROC_A_104", true, true, "x", -1, false);
 		pd.addInclusion("GMV_PROC_A_101", true, true, "x", 2, false);
 		pd.addInclusion("GMV_PROC_A_103", true, true, "x", 7, false);
-		pd.Write();
+		pd.write();
 	}
 }

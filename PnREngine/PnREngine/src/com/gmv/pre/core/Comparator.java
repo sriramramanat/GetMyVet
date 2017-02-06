@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.bson.Document;
 
 import com.gmv.pre.structs.BundleDoc;
+import com.gmv.pre.structs.ProcedureDoc;
 
 public class Comparator {
 
@@ -76,6 +77,32 @@ public class Comparator {
 		comparison.append("Cancellation Percent", cancelPercent);
 		comparison.append("Number Offices", offices);
 		comparison.append("Number Providers", providers);
+		return comparison;
+	}
+	
+	public static Document compareVariants (String id) {
+		Document comparison = new Document();
+		ProcedureDoc pd = new ProcedureDoc (id);
+		System.out.println(pd.toJSON());
+		ArrayList<Document> variants = pd.getVariants();
+		for (Document variant : variants) {
+			int level = variant.getInteger("Level", 0);
+			String tier = "Bronze";
+			if (level == 1) {tier = "Silver";}
+			if (level == 2) {tier = "Gold";}
+			Document variantInfo = new Document ();
+			
+			String vid = variant.getString("Id");
+			ProcedureDoc variantProc = new ProcedureDoc (vid);
+			
+			variantInfo.append("Name", variantProc.getName());
+			variantInfo.append("NumProcedures", variantProc.getNumInclusions());
+			variantInfo.append("NumOptional", variantProc.getNumOptional());
+			variantInfo.append("AveragePrice", ProcedureDoc.getNationalAverage(variantProc.getID()));
+			variantInfo.append("FullBundle", variantProc.toDocument());
+			
+			comparison.append(tier, variantInfo);
+		}
 		return comparison;
 	}
 }
